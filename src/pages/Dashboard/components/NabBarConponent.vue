@@ -1,6 +1,6 @@
 <template>
   <div class="navbar">
-    <h3 class="logo"><i class="fa fa-star"></i> Logo Marca</h3>
+    <i class="fa fa-list icon-menu"></i>
     <a href="" @click.prevent="logout" class="logout">Sair <i class="fa fa-sign-out-alt"></i></a>
   </div>
 </template>
@@ -19,13 +19,14 @@ export default {
 <style lang="scss">
 
 .navbar {
-
-  .logo {
-    color: #fff;
+  .icon-menu {
+    color: #333;
+    font-size: 22px;
+    cursor: pointer;
   }
 
   .logout {
-    color: #fff;
+    color: #333;
     text-decoration: none;
   }
 }
