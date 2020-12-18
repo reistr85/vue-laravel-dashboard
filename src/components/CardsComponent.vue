@@ -1,13 +1,19 @@
 <template>
   <div class="my_card">
     <div class="content top">
-      <h3>{{ type }}</h3>
-      <p class="percentage"><i class="fa fa-arrow-up"></i> {{ percentage }}</p>
+      <div class="icon" :style="{backgroundColor: bg}">
+        <i :class="['fa ico', icon, ]"></i>
+      </div>
+
+      <div class="info">
+        <h3>{{ type }}</h3>
+        <h4>{{ qtd }}</h4>
+      </div>
+      
     </div>
 
     <div class="content footer">
-      <i :class="['fa ico', icon, ]"></i>
-      <p class="qtd">{{ qtd }}</p>
+      <p class="info">Lorem ipsun test</p>
     </div>
   </div>
 </template>
@@ -20,6 +26,7 @@ export default {
     percentage: String,
     icon: String,
     qtd: Number,
+    bg: String,
   }
 }
 </script>
@@ -31,10 +38,13 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: $purple;
+  background-color: $white;
   padding: 15px;
-  border-radius: 7px;
-  color: #fff;
+  border-radius: 3px;
+  box-shadow: 0px 1px 3px 1px rgba(0,0,0,.3);
+  -webkit-box-shadow: 0px 1px 3px 1px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 1px 3px 1px rgba(0,0,0,0.3);
+  margin-top: 15px;
 
   .content {
     display: flex; 
@@ -42,22 +52,54 @@ export default {
   }
 
   .top {
+    position: relative;
 
-    .percentage {
-      color: $green;
+    .icon {
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      top: -35px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 3px;
+      box-shadow: 0px 1px 4px 1px rgba(0,0,0,.3);
+      -webkit-box-shadow: 0px 1px 4px 1px rgba(0,0,0,0.3);
+      -moz-box-shadow: 0px 1px 4px 1px rgba(0,0,0,0.3);
+
+      .ico {
+        font-size: 22px;
+        color: $white;
+      }
     }
 
+    .info {
+      position: absolute;
+      right: 0;
+
+      h3 {
+        font-size: 16px;
+        font-weight: normal;
+        color: $gray3;
+      }
+
+      h4 {
+        font-size: 22px;
+        font-weight: 200;
+        text-align: right;
+      }
+    }
   }
 
   .footer {
+    margin-top: 70px;
+    border-top: 1px solid $gray2;
 
-    .ico {
-      font-size: 40px;
-    }
-
-    .qtd {
-      font-size: 30px;
-      margin: 0;
+    .info {
+      font-size: 14px;
+      font-weight: normal;
+      margin: 10px 0 0 0;
+      color: $gray4;
     }
   }
 }

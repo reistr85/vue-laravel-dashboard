@@ -26,18 +26,20 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/scss/_colors.scss';
+
 .sidebar {
   .top {
     width: 100%;
     text-align: center;
     padding: 15px 0;
     margin-top: 0px;
-    border-bottom: 1px solid rgba($color: #fff, $alpha: .3);
+    border-bottom: 1px solid rgba($color: $white, $alpha: .3);
 
     .info {
       h3{
         margin: 0;
-        color: #fff;
+        color: $white;
       }
     }
   }
@@ -52,7 +54,7 @@ export default {
         font-size: 14px;
         list-style: none;
         font-weight: 200;
-        background: rgba($color: #fff, $alpha: .2);
+        background: rgba($color: $white, $alpha: .2);
         padding: 10px 18px;
         border-radius: 5px;
         display: flex;
@@ -61,7 +63,7 @@ export default {
         transition: all .3s ease;
 
         a {
-          color: #fff;
+          color: $white;
           text-decoration: none;
           
           .icon {
@@ -71,7 +73,7 @@ export default {
       }
 
       li:hover, li.active {
-        background: #4CAF4F;
+        background: $green;
       }
     }
   }
