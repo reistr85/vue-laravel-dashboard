@@ -22,11 +22,26 @@
 export default {
   name: 'CardsComponent',
   props: {
-    type: String,
-    percentage: String,
-    icon: String,
-    qtd: Number,
-    bg: String,
+    type: {
+      type: String,
+      default: ''
+    },
+    percentage: {
+      type: String,
+      default: ''
+    },
+    icon: {
+      type: String,
+      default: ''
+    },
+    qtd: {
+      type: String,
+      default: ''
+    },
+    bg: {
+      type: String,
+      default: ''
+    },
   }
 }
 </script>
@@ -79,7 +94,7 @@ export default {
 
       h3 {
         font-size: 16px;
-        font-weight: normal;
+        font-weight: 200;
         color: $gray3;
       }
 

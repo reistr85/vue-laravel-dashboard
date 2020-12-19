@@ -1,5 +1,5 @@
 export default {
   status: '',
-  access_token: localStorage.getItem('psiplan.access_token') || '',
-  user: JSON.parse(localStorage.getItem('psiplan.user')) || '',
+  access_token: localStorage.getItem('company.access_token') || '',
+  user: JSON.parse(localStorage.getItem('company.user')) || '',
 };

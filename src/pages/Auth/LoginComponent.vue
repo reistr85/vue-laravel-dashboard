@@ -12,11 +12,11 @@
               <label for="exampleInputEmail1">E-mail</label>
               <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
               <label for="exampleInputPassword1">Senha</label>
               <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
             </div>
-            <button type="submit" class="btn btn-primary" @click.prevent="login">Entrar</button>
+            <button type="submit" class="btn btn-primary mt-2" @click.prevent="login">Entrar</button>
           </form>
         </div>
       </div>

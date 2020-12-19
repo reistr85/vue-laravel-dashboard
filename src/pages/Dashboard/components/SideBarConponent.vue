@@ -49,6 +49,8 @@ export default {
     padding: 10px 20px;
 
     ul { 
+      padding: 0;
+
       li {
         margin: 15px 0;
         font-size: 14px;

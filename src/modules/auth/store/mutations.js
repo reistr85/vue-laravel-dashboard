@@ -12,7 +12,7 @@ export default {
     state.access_token = data.token;
     state.user = data.user;
   },
-  [types.LOGOUT](state, data) {
+  [types.LOGOUT](state) {
     state.status = '';
     state.access_token = '';
   },

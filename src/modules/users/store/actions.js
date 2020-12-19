@@ -1,6 +1,5 @@
 import * as types from './mutation-types';
 import axios from '../../../services';
-import router from '../../../router';
 
 export const ActionRegister = ({ commit }, data) => {
   return new Promise((resolve, reject) => {

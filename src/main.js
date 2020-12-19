@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import './plugins/bootstrap-vue';
 import './plugins/toasts';
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
@@ -7,11 +6,9 @@ import VueSimpleAlert from "vue-simple-alert";
 import VueEllipseProgress from 'vue-ellipse-progress';
 import VueTheMask from 'vue-the-mask'
 import App from './App.vue';
-// import VueCarousel from 'vue-carousel';
 import store from './store';
 import router from './router';
 
-// Vue.use(VueCarousel);
 Vue.use(VueEllipseProgress);
 Vue.use(VueSimpleAlert);
 Vue.use(VueTheMask)

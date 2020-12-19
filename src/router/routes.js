@@ -1,8 +1,8 @@
 /* eslint-disable */
-import { routes as home } from '../pages/Site/Home';
-import { routes as login } from '../pages/Site/Auth';
+import { routes as home } from '@/pages/Home';
+import { routes as auth } from '@/pages/Auth';
 
 export default [
-  ...login, 
+  ...auth, 
   ...home, 
 ];
