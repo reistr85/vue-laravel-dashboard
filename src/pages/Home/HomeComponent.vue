@@ -2,7 +2,8 @@
   <DashboardComponent>
     <div slot="slot-pages" class="content-pages">
       <header class="title_pages">
-        <p>Início</p>
+        <h2>{{this.$route.meta.title}}</h2>
+        <p>{{this.$route.meta.description}}</p>
       </header>
 
       <div>

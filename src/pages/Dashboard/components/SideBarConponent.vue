@@ -2,17 +2,17 @@
   <div class="sidebar">
     <div class="top">
       <div class="info">
-        <h3 class="name">Empresa</h3>
+        <h3 class="name">Academia</h3>
       </div>
     </div>
 
     <div class="menu">
       <ul>
-        <li class="active"><router-link :to="{name: 'home'}"><i class="fa fa-home icon"></i> Início</router-link></li>
-        <li><router-link :to="{name: 'clients'}"><i class="fa fa-box icon"></i> Clientes</router-link></li>
-        <li><router-link :to="{name: 'products'}"><i class="fa fa-box icon"></i> Produtos</router-link></li>
-        <li><router-link :to="{name: 'products'}"><i class="fa fa-store icon"></i> Vendas</router-link></li>
-        <li><router-link :to="{name: 'products'}"><i class="fa fa-chart-bar icon"></i> Relatórios</router-link></li>
+        <li :class="[{'active': menuActive('home')}]"><router-link :to="{name: 'home'}"><i class="fa fa-home icon"></i> Início</router-link></li>
+        <li :class="[{'active': menuActive('users')}]"><router-link :to="{name: 'users'}"><i class="fa fa-users icon"></i> Usuários</router-link></li>
+        <li :class="[{'active': menuActive('modalities')}]"><router-link :to="{name: 'modalities'}"><i class="fa fa-box icon"></i> Modalidades</router-link></li>
+        <li :class="[{'active': menuActive('customers')}]"><router-link :to="{name: 'customers'}"><i class="fa fa-users icon"></i> Clientes</router-link></li>
+        <li :class="[{'active': menuActive('enrollments')}]"><router-link :to="{name: 'enrollments'}"><i class="fa fa-chart-bar icon"></i> Matrículas</router-link></li>
       </ul>
     </div>
   </div>
@@ -22,6 +22,15 @@
 export default {
   name: 'SideBarComponent',
   
+  methods: {
+    menuActive(routerName){
+      if(routerName == this.$route.name){
+        return true;
+      }
+
+      return false;
+    }
+  }
 }
 </script>
 

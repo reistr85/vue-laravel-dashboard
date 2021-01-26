@@ -27,6 +27,18 @@
     .pages {
       width: 100%;
       height: auto;
+
+      .title_pages {
+        margin-bottom: 42px;
+
+        h2 {
+          font-size: 28px;
+        }
+
+        p {
+          font-size: 16px;
+        }
+      }
     }
   }
 }
