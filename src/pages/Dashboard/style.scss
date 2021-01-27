@@ -39,6 +39,26 @@
           font-size: 16px;
         }
       }
+
+      .content-main-pages {
+        width: 100%;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        background-color: #fff;
+
+        .content-header {
+
+        }
+
+        .content-body {
+          margin-top: 22px;
+        }
+
+        .content-footer {
+
+        }
+      }
     }
   }
 }

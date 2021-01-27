@@ -7,7 +7,11 @@
       </header>
 
       <section class="content-main-pages">
-        <ListsComponent :data="users" :columns="columnsList" />
+        <ListsComponent 
+          :data="users" 
+          :columns="columnsList"
+          @show="show"
+          @destroy="destroy" />
       </section>
       
     </div>
@@ -45,6 +49,14 @@ export default {
         'name': 'Nome',
         'email': 'E-mail',
       }
+    }
+  },
+  methods: {
+    show(id){
+      this.$router.push({name: 'users_show', params: {id}});
+    },
+    destroy(id){
+      console.log('destroy: '+id);
     }
   },
   components: {
