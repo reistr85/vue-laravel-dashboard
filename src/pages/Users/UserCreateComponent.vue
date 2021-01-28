@@ -7,11 +7,7 @@
       </header>
 
       <section class="content-main-pages">
-        <div class="content-header">
-          <router-link :to="{name: 'users'}" class="btn btn-primary btn-sm" title="voltar">
-            <i class="fa fa-reply-all"></i> voltar
-          </router-link>
-        </div>
+        <div class="content-header"></div>
 
         <div class="content-body">
           <form>
@@ -47,35 +43,48 @@
           </form>
         </div>
 
-        <div class="content-footer"></div>
+        <div class="content-footer">
+          <router-link :to="{name: 'users'}" class="btn btn-primary btn-sm" title="voltar">
+            <i class="fa fa-reply-all"></i> voltar
+          </router-link>
+
+          <button 
+            class="btn btn-success btn-sm mx-2" 
+            title="confirmar alterações"
+            @click="confirm()"
+            >
+            <i class="fa fa-check"></i> confirmar
+          </button>
+        </div>
       </section>
-      
     </div>
   </DashboardComponent>
 </template>
 
 <script>
+import mixins from '@/mixins';
+import UsersService from './services/UsersService';
 import DashboardComponent from '../Dashboard/DashboardComponent';
 import InputComponent from '@/components/InputComponent';
 
 export default {
   name: 'UserCreate',
-  
+  mixins: [mixins],
   data(){
     return {
       user: {
-        name: '',
-        email: '',
-        password: '',
+        name: 'Renan Reis',
+        email: 'reistr85@gmail.com',
+        password: 're851120',
       }
     }
   },
   methods: {
-    show(id){
-      this.$router.push({name: 'users_show', params: {id}});
-    },
-    destroy(id){
-      console.log('destroy: '+id);
+    confirm(){
+      UsersService.update(this.user)
+      
+      this.toastMessage("Realizadom com sucesso.", "success");
+      this.$router.push({name: 'users'});
     },
     changeInputText(data){
       data.model[data.name] = data.value;

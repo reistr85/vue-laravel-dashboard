@@ -1,5 +1,6 @@
 import axios from 'axios';
-axios.defaults.baseURL = process.env.VUE_APP_ROOT_API;
+// axios.defaults.baseURL = process.env.VUE_APP_ROOT_API;
+axios.defaults.baseURL = 'http://localhost:9001/api/v1/academy';
 
 axios.interceptors.request.use(
   async config => {

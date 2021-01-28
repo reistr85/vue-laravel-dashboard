@@ -46,6 +46,9 @@ export default {
       this.$emit('change', data);
     }
   },
+  mounted(){
+    this.model_input_text = this.model[this.name];
+  },
   data(){
     return {
       model_input_text: '',

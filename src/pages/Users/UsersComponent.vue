@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import mixins from '@/mixins';
+import UsersService from './services/UsersService';
 import DashboardComponent from '../Dashboard/DashboardComponent';
 import ListsComponent from '@/components/ListsComponent';
 
@@ -51,12 +53,28 @@ export default {
       }
     }
   },
+  created() {
+    this.getAllUsers();
+  },
+  mixins: [mixins],
   methods: {
+    getAllUsers(){
+      UsersService.getAllUsers();
+    },
     show(id){
       this.$router.push({name: 'users_show', params: {id}});
     },
     destroy(id){
-      console.log('destroy: '+id);
+      id;
+      this.alertConfirmation(
+        "Excluir usuário",
+        "Você realmente deseja excluir este usuário?",
+        "question"
+      ).then((res) => {
+        if (res) {
+          this.toastMessage("Excluído com sucesso.", "success");
+        }
+      });
     }
   },
   components: {
