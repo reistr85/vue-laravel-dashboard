@@ -1,7 +1,9 @@
 <template>
   <div class="lists">
-    <div class="top">
-      <p><strong>{{ description }}</strong> <span class="badge badge-info">{{ data.length }}</span></p>
+    <div class="top mb-5">
+      <router-link :to="{name: route_btn}" class="btn btn-success btn-sm">
+        <i class="fa fa-plus"></i> Novo
+      </router-link>
     </div>
 
     <div class="content">
@@ -22,12 +24,22 @@
               <p class="m-0 my-1">{{ i == 0 ? index+1 : item[column] }}</p>
             </td>
             <td>
-              <button class="btn btn-secondary btn-sm" @click="show(item.id)"><i class="fa fa-eye"></i></button>
+              <button class="btn btn-secondary btn-sm" @click.prevent="show(item.id)">
+                <i class="fa fa-eye"></i>
+                </button>
               <button class="btn btn-danger btn-sm mx-1" @click="destroy(item.id)"><i class="fa fa-trash"></i></button>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="footer mt-5">
+      <div class="row">
+        <div class="col-6">
+          <p>Quantidade de registros<span class="badge bg-secondary mx-2">{{ data.length }}</span></p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -39,6 +51,10 @@ export default {
     data: Array,
     description: String,
     columns: {},
+    route_btn: {
+      type: String,
+      default: ''
+    }
   },
   methods: {
     show(id){

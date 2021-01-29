@@ -17,8 +17,7 @@
                   label="Nome"
                   name="name"
                   id="nome"
-                  :model="user" 
-                  @change="changeInputText"/>
+                  :model="user" />
               </div>
 
               <div class="col-3">
@@ -26,8 +25,7 @@
                   label="E-mail"
                   name="email"
                   id="email"
-                  :model="user" 
-                  @change="changeInputText"/>
+                  :model="user" />
               </div>
 
               <div class="col-3">
@@ -36,8 +34,7 @@
                   label="Senha"
                   name="password"
                   id="password"
-                  :model="user" 
-                  @change="changeInputText"/>
+                  :model="user" />
               </div>
             </div>
           </form>
@@ -70,25 +67,59 @@ import InputComponent from '@/components/InputComponent';
 export default {
   name: 'UserCreate',
   mixins: [mixins],
-  data(){
-    return {
-      user: {
-        name: 'Renan Reis',
-        email: 'reistr85@gmail.com',
-        password: 're851120',
-      }
+  props: {
+    action: {
+      type: String,
+      default: 'create'
     }
   },
+  data(){
+    return {
+      user: {}
+    }
+  },
+  mounted(){
+    this.getUser();
+  },
   methods: {
+    getUser(){
+      const user_id = this.$route.params.id;
+     
+      UsersService.getUser(user_id).then(res => {
+        this.user = res.data.user;
+      }).catch(err => {
+        console.log(err);
+      });
+    },
     confirm(){
-      UsersService.update(this.user)
-      
-      this.toastMessage("Realizadom com sucesso.", "success");
+      this[this.action]();
       this.$router.push({name: 'users'});
     },
-    changeInputText(data){
-      data.model[data.name] = data.value;
-    }
+    create(){
+      this.user.type = 'D';
+      
+      UsersService.create(this.user).then(() => {
+        this.toastMessage("Realizadom com sucesso.", "success");
+      }).catch(err => {
+        console.log(err);
+        this.toastMessage("Erro ao criar o usuário.");
+      });
+    },
+    update(){
+      const user = {
+        id: this.user.id,
+        name: this.user.name,
+        email: this.user.email,
+        password: this.user.password
+      }
+
+      UsersService.update(user).then(() => {
+        this.toastMessage("Realizadom com sucesso.", "success");
+      }).catch(err => {
+        console.log(err);
+        this.toastMessage("Erro ao atualizar o usuário.");
+      });
+    },
   },
   components: {
     DashboardComponent,

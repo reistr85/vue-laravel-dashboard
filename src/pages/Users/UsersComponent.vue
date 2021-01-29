@@ -10,6 +10,7 @@
         <ListsComponent 
           :data="users" 
           :columns="columnsList"
+          :route_btn="'user_create'"
           @show="show"
           @destroy="destroy" />
       </section>
@@ -29,23 +30,7 @@ export default {
 
   data(){
     return {
-      users: [
-        {
-          id: 1,
-          name: 'Renan Trindade dos Reis',
-          email: 'reistr85@gmail.com'
-        },
-        {
-          id: 2,
-          name: 'Ester Vieira Trindade dos Reis',
-          email: 'ester@gmail.com'
-        },
-        {
-          id: 3,
-          name: 'Gabriel Vieira Trindade dos Reis',
-          email: 'gabriel@gmail.com'
-        }
-      ],
+      users: [],
       columnsList: {
         'id': '#',
         'name': 'Nome',
@@ -59,20 +44,32 @@ export default {
   mixins: [mixins],
   methods: {
     getAllUsers(){
-      UsersService.getAllUsers();
+      UsersService.getAllUsers().then(res => {
+        this.users = res.data.users;
+      }).catch(err => {
+        console.log(err);
+      });
     },
     show(id){
-      this.$router.push({name: 'users_show', params: {id}});
+      this.$router.push({name: 'users_show', params: {id, action: 'update'}, props: {action: 'update'}});
     },
     destroy(id){
-      id;
       this.alertConfirmation(
         "Excluir usuário",
         "Você realmente deseja excluir este usuário?",
         "question"
       ).then((res) => {
         if (res) {
-          this.toastMessage("Excluído com sucesso.", "success");
+          UsersService.delete(id).then(() => {
+            this.toastMessage("Excluído com sucesso.", "success");
+            this.getAllUsers();
+          }).catch(err => {
+            if(err.response.status == 500){
+              this.toastMessage(err.response.data.message);
+            }else{
+              this.toastMessage("Erro ao excluir o usuário.");
+            }
+          });
         }
       });
     }

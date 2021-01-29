@@ -6,7 +6,7 @@
       class="form-control" 
       :name="name" 
       :id="id" 
-      v-model="model_input_text">
+      v-model="model[name]">
   </div>
 </template>
 
@@ -31,27 +31,12 @@ export default {
       default: '',
     },
     model: {
-      type: Object,
-      default: null,
+      type: Object
     }
-  },
-  watch: {
-    model_input_text(){
-      const data = {
-        model: this.model,
-        name: this.name,
-        value: this.model_input_text
-      }
-      
-      this.$emit('change', data);
-    }
-  },
-  mounted(){
-    this.model_input_text = this.model[this.name];
   },
   data(){
     return {
-      model_input_text: '',
+      
     }
   }
 }
