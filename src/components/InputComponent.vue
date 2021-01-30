@@ -1,11 +1,12 @@
 <template>
   <div>
-    <label :for="id">{{label}}</label>
+    <label :for="id" v-if="label">{{label}}</label>
     <input 
       :type="input_type" 
       class="form-control" 
       :name="name" 
       :id="id" 
+      :placeholder="placeholder"
       v-model="model[name]">
   </div>
 </template>
@@ -27,6 +28,10 @@ export default {
       default: '',
     },
     id: {
+      type: String,
+      default: '',
+    },
+    placeholder: {
       type: String,
       default: '',
     },

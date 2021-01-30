@@ -1,9 +1,18 @@
 <template>
   <div class="lists">
     <div class="top mb-5">
-      <router-link :to="{name: route_btn}" class="btn btn-success btn-sm">
-        <i class="fa fa-plus"></i> Novo
-      </router-link>
+      <ButtonSimpleComponent 
+        :icon="'fa-plus'" 
+        :label="'Novo'" 
+        :class_btn="'btn-success'" 
+        @action="action_btn_new" />
+
+      <InputComponent 
+        label=""
+        name="value"
+        id="value"
+        placeholder="pesquise aqui"
+        :model="search" />
     </div>
 
     <div class="content">
@@ -19,7 +28,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in data" :key="item.id">
+          <tr v-for="(item, index) in data_list" :key="item.id">
             <td v-for="(column, i) in Object.keys(columns)" :key="i">
               <p class="m-0 my-1">{{ i == 0 ? index+1 : item[column] }}</p>
             </td>
@@ -45,6 +54,9 @@
 </template>
 
 <script>
+import ButtonSimpleComponent from '@/components/ButtonSimpleComponent';
+import InputComponent from '@/components/InputComponent';
+
 export default {
   name: 'ListsComponent',
   props: {
@@ -56,19 +68,59 @@ export default {
       default: ''
     }
   },
+  watch: {
+    'search.value'(){
+
+      let filter_data = [];
+      
+      for(let i=0; i<this.data.length; i++){
+        this.search.value = this.search.value.toLowerCase();
+        let value = this.data[i].name.toLowerCase();
+
+        if(value.includes(this.search.value)){
+          filter_data.push(this.data[i]);
+        }
+      }
+
+      this.data_list = filter_data;
+    }
+  },
+  created() {
+    this.data_list = this.data;
+  },
+  data(){
+    return {
+      data_list: [],
+      search: {
+        value: '',
+      },
+    }
+  },
   methods: {
     show(id){
       this.$emit('show', id);
     },
     destroy(id){
       this.$emit('destroy', id);
+    },
+    action_btn_new(){
+      this.$router.push({name: 'user_create'});
     }
   },
+  components: {
+    ButtonSimpleComponent,
+    InputComponent,
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .lists {
   width: 100%;
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 </style>
