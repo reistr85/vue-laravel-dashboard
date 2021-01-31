@@ -75,7 +75,8 @@ const mixins = {
         
         for(let i=0; i<this.users.length; i++){
           value_search = value_search.toLowerCase();
-          let value = this.users[i].name.toLowerCase();
+          let value = this.data_list[i].name.toLowerCase();
+          this.users = this.data_list;
 
           if(value.includes(value_search)){
             filter_data.push(this.users[i]);
