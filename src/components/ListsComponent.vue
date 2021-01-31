@@ -28,7 +28,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in data_list" :key="item.id">
+          <tr v-for="(item, index) in data" :key="item.id">
             <td v-for="(column, i) in Object.keys(columns)" :key="i">
               <p class="m-0 my-1">{{ i == 0 ? index+1 : item[column] }}</p>
             </td>
@@ -46,7 +46,7 @@
     <div class="footer mt-5">
       <div class="row">
         <div class="col-6">
-          <p>Quantidade de registros<span class="badge bg-secondary mx-2">{{ data.length }}</span></p>
+          <p>Quantidade de registros<span class="badge bg-secondary mx-2">{{ data_list.length }}</span></p>
         </div>
       </div>
     </div>
@@ -70,33 +70,26 @@ export default {
   },
   watch: {
     'search.value'(){
-
-      let filter_data = [];
-      
-      for(let i=0; i<this.data.length; i++){
-        this.search.value = this.search.value.toLowerCase();
-        let value = this.data[i].name.toLowerCase();
-
-        if(value.includes(this.search.value)){
-          filter_data.push(this.data[i]);
-        }
-      }
-
-      this.data_list = filter_data;
+      console.log(123)
+      this.$emit("filter", this.search.value);
     }
-  },
-  created() {
-    this.data_list = this.data;
   },
   data(){
     return {
-      data_list: [],
+      data_list: this.data,
       search: {
         value: '',
       },
     }
   },
+  mounted(){
+    this.listTable();
+  },
   methods: {
+    listTable(){
+      console.log('555');
+      this.data_list = this.data;
+    },
     show(id){
       this.$emit('show', id);
     },

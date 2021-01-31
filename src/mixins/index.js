@@ -69,7 +69,24 @@ const mixins = {
         }
       }
     },
-    
+    filterSearch(value_search){
+      if(value_search.length > 0){
+        let filter_data = [];
+        
+        for(let i=0; i<this.users.length; i++){
+          value_search = value_search.toLowerCase();
+          let value = this.users[i].name.toLowerCase();
+
+          if(value.includes(value_search)){
+            filter_data.push(this.users[i]);
+          }
+        }
+
+        this.users = filter_data;
+      }else{
+        this.users = this.data_list;
+      }
+    },
   },
 };
 

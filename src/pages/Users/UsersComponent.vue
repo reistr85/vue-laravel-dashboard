@@ -11,6 +11,7 @@
           :data="users" 
           :columns="columnsList"
           :route_btn="'user_create'"
+          @filter="filter"
           @show="show"
           @destroy="destroy" />
       </section>
@@ -30,6 +31,7 @@ export default {
 
   data(){
     return {
+      data_list: [],
       users: [],
       columnsList: {
         'id': '#',
@@ -38,7 +40,7 @@ export default {
       }
     }
   },
-  created() {
+  mounted() {
     this.getAllUsers();
   },
   mixins: [mixins],
@@ -46,6 +48,7 @@ export default {
     getAllUsers(){
       UsersService.getAllUsers().then(res => {
         this.users = res.data.users;
+        this.data_list = res.data.users;
       }).catch(err => {
         console.log(err);
       });
@@ -72,7 +75,10 @@ export default {
           });
         }
       });
-    }
+    },
+    filter(filterSearch){
+      this.filterSearch(filterSearch);
+    },
   },
   components: {
     DashboardComponent,

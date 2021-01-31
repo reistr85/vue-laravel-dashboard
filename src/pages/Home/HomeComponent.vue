@@ -61,14 +61,14 @@ export default {
   },
   methods: {
     async getData(){
-      try{
-        let response = await axios.get('/');
+      // try{
+      //   let response = await axios.get('/');
 
-        this.clients = response.data.clients;
-        this.products = response.data.products;
-      }catch(error){
-        console.error("Aconteceu um erro: "+error.response.status);
-      }
+      //   this.clients = response.data.clients;
+      //   this.products = response.data.products;
+      // }catch(error){
+      //   console.error("Aconteceu um erro: "+error.response.status);
+      // }
     }
   },
   components: {

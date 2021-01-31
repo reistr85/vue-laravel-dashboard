@@ -10,8 +10,8 @@ export const ActionLogin = ({ commit, dispatch }, user) => {
     .then(resp => {
       const token = resp.data.access_token;
       const user = resp.data.user;
-      localStorage.setItem('psiplan.access_token', token);
-      localStorage.setItem('psiplan.user', JSON.stringify(user));
+      localStorage.setItem('aguaritmo.access_token', token);
+      localStorage.setItem('aguaritmo.user', JSON.stringify(user));
 
       commit(types.AUTH_SUCCESS, {token, user});
       commit(types.AUTH_REQUEST);
@@ -32,7 +32,7 @@ export const ActionMe = ({ commit, dispatch }) => {
     axios.post('/me')
     .then(resp => {
       commit(types.AUTH_SET_USER, resp.data.user);
-      localStorage.setItem('psiplan.user', JSON.stringify(resp.data.user));
+      localStorage.setItem('aguaritmo.user', JSON.stringify(resp.data.user));
 
       resolve(resp);
     })
@@ -65,6 +65,6 @@ export const ActionLogout = ({ commit, dispatch }) => {
 }
 
 export const ActionCleanLocalStorage = () => {
-  localStorage.removeItem("psiplan.access_token");
-  localStorage.removeItem('psiplan.user');
+  localStorage.removeItem("aguaritmo.access_token");
+  localStorage.removeItem('aguaritmo.user');
 }

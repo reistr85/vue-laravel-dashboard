@@ -9,7 +9,3 @@ export const getStatus = (state) => {
 export const getUser = (state) => {
   return state.user || {};
 }
-
-export const getPlanId = (state) => {
-  return state.user.plan_id;
-}

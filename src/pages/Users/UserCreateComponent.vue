@@ -84,6 +84,9 @@ export default {
   methods: {
     getUser(){
       const user_id = this.$route.params.id;
+
+      if(!user_id)
+        return;
      
       UsersService.getUser(user_id).then(res => {
         this.user = res.data.user;

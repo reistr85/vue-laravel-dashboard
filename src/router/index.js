@@ -18,7 +18,7 @@ const router = new VueRouter({
 //   if(to.name === 'login' && store.getters.isLoggedIn){
 //     next({name: 'home'});
 //   }else if(to.matched.some(record => record.meta.requiresAuth)) {
-//     store.dispatch('ActionMe');
+//     //store.dispatch('ActionMe');
 //     next({name: 'login'}) 
 //   } else {
 //     next() 
