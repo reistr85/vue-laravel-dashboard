@@ -96,16 +96,19 @@ export default {
     },
     confirm(){
       this[this.action]();
-      this.$router.push({name: 'users'});
     },
     create(){
       this.user.type = 'D';
       
       UsersService.create(this.user).then(() => {
         this.toastMessage("Realizadom com sucesso.", "success");
+        this.$router.push({name: 'users'});
       }).catch(err => {
-        console.log(err);
-        this.toastMessage("Erro ao criar o usuário.");
+        console.log(err.response.data.errors.name);
+
+        if(err.response.status === 422){
+          this.toastMessage(err.response.data.errors);
+        }
       });
     },
     update(){
