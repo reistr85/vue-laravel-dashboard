@@ -12,45 +12,19 @@
         <div class="content-body">
           <form>
             <div class="row">
-              <div class="col-3">
+              <div class="col-6">
                 <InputComponent 
-                  label="Nome"
-                  name="name"
-                  id="nome"
-                  :model="user" />
-              </div>
-
-              <div class="col-3">
-                <InputComponent 
-                  label="E-mail"
-                  name="email"
-                  id="email"
-                  :model="user" />
-              </div>
-
-              <div class="col-3">
-                <InputComponent 
-                  input_type="password"
-                  label="Senha"
-                  name="password"
-                  id="password"
-                  :model="user" />
-              </div>
-
-              <div class="col-3">
-                <InputComponent 
-                  input_type="password"
-                  label="Repita a Senha"
-                  name="confirm_password"
-                  id="confirm_password+"
-                  :model="user" />
+                  label="Descrição"
+                  name="description"
+                  id="description"
+                  :model="modality" />
               </div>
             </div>
           </form>
         </div>
 
         <div class="content-footer">
-          <router-link :to="{name: 'users'}" class="btn btn-primary btn-sm" title="voltar">
+          <router-link :to="{name: 'modalities'}" class="btn btn-primary btn-sm" title="voltar">
             <i class="fa fa-reply-all"></i> voltar
           </router-link>
 
@@ -69,7 +43,7 @@
 
 <script>
 import mixins from '@/mixins';
-import UsersService from './services/UsersService';
+import ModalitiesService from './services/ModalitiesService';
 import DashboardComponent from '../Dashboard/DashboardComponent';
 import InputComponent from '@/components/InputComponent';
 
@@ -84,34 +58,34 @@ export default {
   },
   data(){
     return {
-      user: {}
+      modality: {}
     }
   },
   mounted(){
-    this.getUser();
+    if(this.action != 'create')
+      this.find();
   },
   methods: {
-    getUser(){
-      const user_id = this.$route.params.id;
+    find(){
+      const modality_id = this.$route.params.id;
 
-      if(!user_id)
+      if(!modality_id)
         return;
      
-      UsersService.getUser(user_id).then(res => {
-        this.user = res.data.user;
+      ModalitiesService.show(modality_id).then(res => {
+        this.modality = res.data.modality;
       }).catch(err => {
         console.log(err);
       });
     },
     confirm(){
+      console.log(this.action)
       this[this.action]();
     },
     create(){
-      this.user.type = 'D';
-      
-      UsersService.create(this.user).then(() => {
-        this.toastMessage("Realizadom com sucesso.", "success");
-        this.$router.push({name: 'users'});
+      ModalitiesService.store(this.modality).then(() => {
+        this.toastMessage("Realizado com sucesso.", "success");
+        this.$router.push({name: 'modalities'});
       }).catch(err => {
         if(err.response.status === 422){
           this.toastMessage(err.response.data.errors);
@@ -121,16 +95,14 @@ export default {
       });
     },
     update(){
-      const user = {
-        id: this.user.id,
-        name: this.user.name,
-        email: this.user.email,
-        password: this.user.password
+      const modality = {
+        id: this.modality.id,
+        description: this.modality.description
       }
 
-      UsersService.update(user).then(() => {
+      ModalitiesService.update(modality).then(() => {
         this.toastMessage("Realizadom com sucesso.", "success");
-        this.$router.push({name: 'users'});
+        this.$router.push({name: 'modalities'});
       }).catch(err => {
         if(err.response.status === 422){
           this.toastMessage(err.response.data.errors);

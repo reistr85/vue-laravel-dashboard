@@ -46,7 +46,7 @@
     <div class="footer mt-5">
       <div class="row">
         <div class="col-6">
-          <p>Quantidade de registros<span class="badge bg-secondary mx-2">{{ data_list.length }}</span></p>
+          <p v-if="data">Quantidade de registros<span class="badge bg-secondary mx-2">{{ data.length }}</span></p>
         </div>
       </div>
     </div>
@@ -70,7 +70,6 @@ export default {
   },
   watch: {
     'search.value'(){
-      console.log(123)
       this.$emit("filter", this.search.value);
     }
   },
@@ -87,7 +86,6 @@ export default {
   },
   methods: {
     listTable(){
-      console.log('555');
       this.data_list = this.data;
     },
     show(id){
@@ -97,7 +95,7 @@ export default {
       this.$emit('destroy', id);
     },
     action_btn_new(){
-      this.$router.push({name: 'user_create'});
+      this.$router.push({name: this.route_btn});
     }
   },
   components: {
