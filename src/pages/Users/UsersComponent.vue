@@ -77,7 +77,7 @@ export default {
       });
     },
     filter(filterSearch){
-      this.filterSearch(filterSearch);
+      this.filterSearch(filterSearch, 'users', 'name');
     },
   },
   components: {

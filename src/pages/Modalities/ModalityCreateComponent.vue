@@ -19,6 +19,17 @@
                   id="description"
                   :model="modality" />
               </div>
+
+              <div class="col-3">
+                <label for="price">Preço</label>
+                <Money
+                  v-model="modality.price"
+                  v-bind="money"
+                  class="form-control"
+                  id="price"
+                  name="price"
+                  :value="price" />
+              </div>
             </div>
           </form>
         </div>
@@ -42,6 +53,7 @@
 </template>
 
 <script>
+import { Money } from "v-money";
 import mixins from '@/mixins';
 import ModalitiesService from './services/ModalitiesService';
 import DashboardComponent from '../Dashboard/DashboardComponent';
@@ -58,7 +70,16 @@ export default {
   },
   data(){
     return {
-      modality: {}
+      money: {
+        decimal: ",",
+        thousands: ".",
+        prefix: "R$ ",
+        suffix: "",
+        precision: 2,
+        masked: false,
+      },
+      modality: {},
+      price: 0,
     }
   },
   mounted(){
@@ -97,7 +118,8 @@ export default {
     update(){
       const modality = {
         id: this.modality.id,
-        description: this.modality.description
+        description: this.modality.description,
+        price: this.modality.price
       }
 
       ModalitiesService.update(modality).then(() => {
@@ -113,6 +135,7 @@ export default {
     },
   },
   components: {
+    Money,
     DashboardComponent,
     InputComponent,
   }

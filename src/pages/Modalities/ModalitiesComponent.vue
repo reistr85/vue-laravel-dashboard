@@ -35,16 +35,17 @@ export default {
       modalities: [],
       columnsList: {
         'id': '#',
-        'name': 'Descrição',
+        'description': 'Descrição',
+        'price': 'Preço',
       }
     }
   },
   mounted() {
-    this.getlAll();
+    this.getAll();
   },
   mixins: [mixins],
   methods: {
-    getlAll(){
+    getAll(){
       ModalitiesService.index().then(res => {
         this.modalities = res.data.modalities;
         this.data_list = res.data.modalities;
@@ -76,7 +77,7 @@ export default {
       });
     },
     filter(filterSearch){
-      this.filterSearch(filterSearch);
+      this.filterSearch(filterSearch, 'modalities', 'description');
     },
   },
   components: {

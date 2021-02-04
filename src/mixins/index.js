@@ -69,23 +69,23 @@ const mixins = {
         }
       }
     },
-    filterSearch(value_search){
+    filterSearch(value_search, type, column){
       if(value_search.length > 0){
         let filter_data = [];
         
-        for(let i=0; i<this.users.length; i++){
+        for(let i=0; i<this[type].length; i++){
           value_search = value_search.toLowerCase();
-          let value = this.data_list[i].name.toLowerCase();
-          this.users = this.data_list;
+          let value = this.data_list[i][column].toLowerCase();
+          this[type] = this.data_list;
 
           if(value.includes(value_search)){
-            filter_data.push(this.users[i]);
+            filter_data.push(this[type][i]);
           }
         }
 
-        this.users = filter_data;
+        this[type] = filter_data;
       }else{
-        this.users = this.data_list;
+        this[type] = this.data_list;
       }
     },
   },

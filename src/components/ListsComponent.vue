@@ -22,9 +22,9 @@
             <th scope="col" v-for="(column, index) in Object.keys(columns)" :key="index">
               {{ columns[column] }}
             </th>
-            <th scope="col">
-              Ações
-            </th>
+            <td align="right">
+              <span class="label-actions-list">Ações</span>
+            </td>
           </tr>
         </thead>
         <tbody>
@@ -32,7 +32,7 @@
             <td v-for="(column, i) in Object.keys(columns)" :key="i">
               <p class="m-0 my-1">{{ i == 0 ? index+1 : item[column] }}</p>
             </td>
-            <td>
+            <td align="right">
               <button class="btn btn-secondary btn-sm" @click.prevent="show(item.id)">
                 <i class="fa fa-eye"></i>
                 </button>
@@ -112,6 +112,10 @@ export default {
   .top {
     display: flex;
     justify-content: space-between;
+  }
+
+  .label-actions-list {
+    margin-right: 30px;
   }
 }
 </style>
