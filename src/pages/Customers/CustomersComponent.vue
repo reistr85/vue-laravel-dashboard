@@ -8,9 +8,9 @@
 
       <section class="content-main-pages">
         <ListsComponent 
-          :data="modalities" 
+          :data="customers" 
           :columns="columnsList"
-          :route_btn="'modality_create'"
+          :route_btn="'customer_create'"
           @filter="filter"
           @show="show"
           @destroy="destroy" />
@@ -22,17 +22,17 @@
 
 <script>
 import mixins from '@/mixins';
-import ModalitiesService from './services/ModalitiesService';
+import CustomersService from './services/CustomersService';
 import DashboardComponent from '../Dashboard/DashboardComponent';
 import ListsComponent from '@/components/ListsComponent';
 
 export default {
-  name: 'Modalities',
+  name: 'Customers',
 
   data(){
     return {
       data_list: [],
-      modalities: [],
+      customers: [],
       columnsList: {
         'id': '#',
         'description': 'Descrição',
@@ -46,38 +46,38 @@ export default {
   mixins: [mixins],
   methods: {
     getAll(){
-      ModalitiesService.index().then(res => {
-        this.modalities = res.data.modalities;
-        this.data_list = res.data.modalities;
+      CustomersService.index().then(res => {
+        this.customers = res.data.customers;
+        this.data_list = res.data.customers;
       }).catch(err => {
         console.log(err);
       });
     },
     show(id){
-      this.$router.push({name: 'modality_show', params: {id, action: 'update'}});
+      this.$router.push({name: 'customer_show', params: {id, action: 'update'}});
     },
     destroy(id){
       this.alertConfirmation(
-        "Excluir modalidade",
-        "Você realmente deseja excluir esta modalidade?",
+        "Excluir cliente",
+        "Você realmente deseja excluir este cliente?",
         "question"
       ).then((res) => {
         if (res) {
-          ModalitiesService.delete(id).then(() => {
+          CustomersService.delete(id).then(() => {
             this.toastMessage("Excluído com sucesso.", "success");
             this.getAll();
           }).catch(err => {
             if(err.response.status == 500){
               this.toastMessage(err.response.data.message);
             }else{
-              this.toastMessage("Erro ao excluir a modalidade.");
+              this.toastMessage("Erro ao excluir o cliente.");
             }
           });
         }
       });
     },
     filter(filterSearch){
-      this.filterSearch(filterSearch, 'modalities', 'description');
+      this.filterSearch(filterSearch, 'customers', 'name');
     },
   },
   components: {

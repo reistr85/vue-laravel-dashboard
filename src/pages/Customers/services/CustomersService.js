@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-const baseURL = "/modalities";
+const baseURL = "/customers";
 
-const ModalitiesService = {
+const CustomersService = {
   index() {
     return new Promise((resolve, reject) => {
       
@@ -15,10 +15,10 @@ const ModalitiesService = {
       })
     })
   },
-  show(id) {
+  show(obj_id) {
     return new Promise((resolve, reject) => {
       
-      axios.get(`${baseURL}/${id}`)
+      axios.get(`${baseURL}/${obj_id}`)
       .then(resp => {
         resolve(resp);
       })
@@ -62,4 +62,4 @@ const ModalitiesService = {
   }
 }
 
-export default ModalitiesService;
+export default CustomersService;

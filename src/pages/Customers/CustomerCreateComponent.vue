@@ -17,25 +17,25 @@
                   label="Descrição"
                   name="description"
                   id="description"
-                  :model="modality" />
+                  :model="customer" />
               </div>
 
               <div class="col-3">
                 <label for="price">Preço</label>
                 <Money
-                  v-model="modality.price"
+                  v-model="customer.price"
                   v-bind="money"
                   class="form-control"
                   id="price"
                   name="price"
-                  :value="price" />
+                  value="price" />
               </div>
             </div>
           </form>
         </div>
 
         <div class="content-footer">
-          <router-link :to="{name: 'modalities'}" class="btn btn-primary btn-sm" title="voltar">
+          <router-link :to="{name: 'customers'}" class="btn btn-primary btn-sm" title="voltar">
             <i class="fa fa-reply-all"></i> voltar
           </router-link>
 
@@ -55,12 +55,13 @@
 <script>
 import { Money } from "v-money";
 import mixins from '@/mixins';
-import ModalitiesService from './services/ModalitiesService';
+import CustomersService from './services/CustomersService';
 import DashboardComponent from '../Dashboard/DashboardComponent';
 import InputComponent from '@/components/InputComponent';
 
 export default {
-  name: 'ModalityCreate',
+  name: 'CustomerCreate',
+
   mixins: [mixins],
   props: {
     action: {
@@ -78,8 +79,7 @@ export default {
         precision: 2,
         masked: false,
       },
-      modality: {},
-      price: 0,
+      customer: {},
     }
   },
   mounted(){
@@ -88,13 +88,13 @@ export default {
   },
   methods: {
     find(){
-      const modality_id = this.$route.params.id;
+      const customer_id = this.$route.params.id;
 
-      if(!modality_id)
+      if(!customer_id)
         return;
      
-      ModalitiesService.show(modality_id).then(res => {
-        this.modality = res.data.modality;
+      CustomersService.show(customer_id).then(res => {
+        this.customer = res.data.customer;
       }).catch(err => {
         console.log(err);
       });
@@ -104,9 +104,9 @@ export default {
       this[this.action]();
     },
     create(){
-      ModalitiesService.store(this.modality).then(() => {
+      CustomersService.store(this.customer).then(() => {
         this.toastMessage("Realizado com sucesso.", "success");
-        this.$router.push({name: 'modalities'});
+        this.$router.push({name: 'customers'});
       }).catch(err => {
         if(err.response.status === 422){
           this.toastMessage(err.response.data.errors);
@@ -116,15 +116,15 @@ export default {
       });
     },
     update(){
-      const modality = {
-        id: this.modality.id,
-        description: this.modality.description,
-        price: this.modality.price
+      const customer = {
+        id: this.customer.id,
+        description: this.customer.description,
+        price: this.customer.price
       }
 
-      ModalitiesService.update(modality).then(() => {
+      CustomersService.update(customer).then(() => {
         this.toastMessage("Realizadom com sucesso.", "success");
-        this.$router.push({name: 'modalities'});
+        this.$router.push({name: 'customers'});
       }).catch(err => {
         if(err.response.status === 422){
           this.toastMessage(err.response.data.errors);
