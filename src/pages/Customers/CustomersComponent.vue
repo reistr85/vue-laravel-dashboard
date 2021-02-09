@@ -35,8 +35,9 @@ export default {
       customers: [],
       columnsList: {
         'id': '#',
-        'description': 'Descrição',
-        'price': 'Preço',
+        'name': 'Nome',
+        'email': 'E-mail',
+        'cell_phone': 'Celular',
       }
     }
   },

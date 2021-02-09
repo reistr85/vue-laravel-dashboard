@@ -12,23 +12,29 @@
         <div class="content-body">
           <form>
             <div class="row">
-              <div class="col-6">
+              <div class="col-4">
                 <InputComponent 
-                  label="Descrição"
-                  name="description"
-                  id="description"
+                  label="Nome"
+                  name="name"
+                  id="name"
                   :model="customer" />
               </div>
 
-              <div class="col-3">
-                <label for="price">Preço</label>
-                <Money
-                  v-model="customer.price"
-                  v-bind="money"
-                  class="form-control"
-                  id="price"
-                  name="price"
-                  value="price" />
+              <div class="col-4">
+                <InputComponent 
+                  label="E-mail"
+                  name="email"
+                  id="email"
+                  :model="customer" />
+              </div>
+
+              <div class="col-4">
+                <InputComponent 
+                  label="Celular"
+                  name="cell_phone"
+                  id="cell_phone"
+                  v-mask="'(##)#####-####'"
+                  :model="customer" />
               </div>
             </div>
           </form>
@@ -53,7 +59,6 @@
 </template>
 
 <script>
-import { Money } from "v-money";
 import mixins from '@/mixins';
 import CustomersService from './services/CustomersService';
 import DashboardComponent from '../Dashboard/DashboardComponent';
@@ -71,14 +76,6 @@ export default {
   },
   data(){
     return {
-      money: {
-        decimal: ",",
-        thousands: ".",
-        prefix: "R$ ",
-        suffix: "",
-        precision: 2,
-        masked: false,
-      },
       customer: {},
     }
   },
@@ -100,7 +97,6 @@ export default {
       });
     },
     confirm(){
-      console.log(this.action)
       this[this.action]();
     },
     create(){
@@ -118,8 +114,9 @@ export default {
     update(){
       const customer = {
         id: this.customer.id,
-        description: this.customer.description,
-        price: this.customer.price
+        name: this.customer.name,
+        email: this.customer.email,
+        cell_phone: this.customer.cell_phone,
       }
 
       CustomersService.update(customer).then(() => {
@@ -135,7 +132,6 @@ export default {
     },
   },
   components: {
-    Money,
     DashboardComponent,
     InputComponent,
   }
