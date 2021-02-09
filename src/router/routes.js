@@ -4,6 +4,7 @@ import { routes as auth } from '@/pages/Auth';
 import { routes as users } from '@/pages/Users';
 import { routes as modalities } from '@/pages/Modalities';
 import { routes as customers } from '@/pages/Customers';
+import { routes as enrollments } from '@/pages/Enrollments';
 
 export default [
   ...auth, 
@@ -11,4 +12,5 @@ export default [
   ...users,
   ...modalities,
   ...customers,
+  ...enrollments,
 ];

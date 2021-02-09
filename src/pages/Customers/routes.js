@@ -31,7 +31,7 @@ export default [
     component: CustomerCreateComponent,
     meta:{
       title: 'Novo cliente',
-      description: 'Preencha todos os dados para cadastrar uma novo cliente.',
+      description: 'Preencha todos os dados para cadastrar um novo cliente.',
       requiresAuth: true
     }
   }

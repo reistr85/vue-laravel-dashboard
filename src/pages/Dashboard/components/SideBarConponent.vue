@@ -12,7 +12,7 @@
         <li :class="[{'active': menuActive(['users', 'users_show', 'user_create'])}]"><router-link :to="{name: 'users'}"><i class="fa fa-users icon"></i> Usuários</router-link></li>
         <li :class="[{'active': menuActive(['modalities', 'modality_show', 'modality_create'])}]"><router-link :to="{name: 'modalities'}"><i class="fa fa-box icon"></i> Modalidades</router-link></li>
         <li :class="[{'active': menuActive(['customers', 'customer_show', 'customer_create'])}]"><router-link :to="{name: 'customers'}"><i class="fa fa-users icon"></i> Clientes</router-link></li>
-        <li :class="[{'active': menuActive(['enrollments'])}]"><router-link :to="{name: 'home'}"><i class="fa fa-chart-bar icon"></i> Matrículas</router-link></li>
+        <li :class="[{'active': menuActive(['enrollments', 'enrollment_show', 'enrollment_create'])}]"><router-link :to="{name: 'enrollments'}"><i class="fa fa-chart-bar icon"></i> Matrículas</router-link></li>
       </ul>
     </div>
   </div>
