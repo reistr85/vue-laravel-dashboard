@@ -35,9 +35,10 @@ export default {
       enrollments: [],
       columnsList: {
         'id': '#',
-        'name': 'Nome',
-        'email': 'E-mail',
-        'cell_phone': 'Celular',
+        'customer_name': 'Cliente',
+        'modality_description': 'Modalidade',
+        'price': 'Valor',
+        'maturity_day': 'Venc.',
       }
     }
   },
@@ -78,7 +79,7 @@ export default {
       });
     },
     filter(filterSearch){
-      this.filterSearch(filterSearch, 'enrollments', 'name');
+      this.filterSearch(filterSearch, 'enrollments', 'customer_name');
     },
   },
   components: {

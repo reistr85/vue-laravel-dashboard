@@ -31,30 +31,35 @@
                   @changeSelect="changeSelect"/>
                 {{enrollment}}
               </div>
+
+              <div class="col-4">
+                <label for="price">Preço</label>
+                <Money
+                  v-model="enrollment.price"
+                  v-bind="money"
+                  class="form-control"
+                  id="price"
+                  name="price" />
+              </div>
             </div>
+
             <div class="row mt-3">
               <div class="col-4">
-                <InputComponent 
-                  label="Nome"
-                  name="name"
-                  id="name"
-                  :model="enrollment" />
+                <label for="price">Desconto</label>
+                <Money
+                  v-model="enrollment.discount"
+                  v-bind="money"
+                  class="form-control"
+                  id="discount"
+                  name="discount" />
               </div>
 
               <div class="col-4">
                 <InputComponent 
-                  label="E-mail"
-                  name="email"
-                  id="email"
-                  :model="enrollment" />
-              </div>
-
-              <div class="col-4">
-                <InputComponent 
-                  label="Celular"
-                  name="cell_phone"
-                  id="cell_phone"
-                  v-mask="'(##)#####-####'"
+                  label="Vencimento"
+                  name="maturity_day"
+                  id="maturity_day"
+                  input_type="number"
                   :model="enrollment" />
               </div>
             </div>
@@ -81,12 +86,13 @@
 
 <script>
 import mixins from '@/mixins';
+import InputComponent from '@/components/InputComponent';
+import SelectComponent from '@/components/SelectComponent';
+import { Money } from "v-money";
 import CustomersService from '@/pages/Customers/services/CustomersService';
 import ModalitiesService from '@/pages/Modalities/services/ModalitiesService';
 import EnrollmentsService from './services/EnrollmentsService';
 import DashboardComponent from '../Dashboard/DashboardComponent';
-import InputComponent from '@/components/InputComponent';
-import SelectComponent from '@/components/SelectComponent';
 
 export default {
   name: 'EnrollmentCreate',
@@ -100,10 +106,21 @@ export default {
   },
   data(){
     return {
+      money: {
+        decimal: ",",
+        thousands: ".",
+        prefix: "R$ ",
+        suffix: "",
+        precision: 2,
+        masked: false,
+      },
       enrollment: {
-        name: '',
         customer_id: 0,
         modality_id: 0,
+        price: '',
+        discount: '',
+        maturity_day: '',
+        payment_status: 1,
       },
       data_select_customers: [],
       data_select_modalities: [],
@@ -181,6 +198,7 @@ export default {
     DashboardComponent,
     InputComponent,
     SelectComponent,
+    Money,
   }
 }
 </script>
