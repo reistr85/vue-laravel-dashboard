@@ -19,7 +19,6 @@
                   :data="data_select_customers"
                   :model="enrollment"
                   @changeSelect="changeSelect"/>
-                {{enrollment}}
               </div>
 
               <div class="col-4">
@@ -29,7 +28,6 @@
                   :data="data_select_modalities"
                   :model="enrollment"
                   @changeSelect="changeSelect"/>
-                {{enrollment}}
               </div>
 
               <div class="col-4">
