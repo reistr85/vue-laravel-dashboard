@@ -59,6 +59,17 @@ const ModalitiesService = {
         reject(err);
       })
     })
+  },
+  formatDataInSelect(data){
+    const arr = [];
+    data.forEach(item => {
+      arr.push({
+        id: item.id,
+        text: item.description,
+      })
+    });
+
+    return arr;
   }
 }
 

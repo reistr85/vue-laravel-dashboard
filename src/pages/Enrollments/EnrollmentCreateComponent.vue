@@ -13,6 +13,27 @@
           <form>
             <div class="row">
               <div class="col-4">
+                <SelectComponent 
+                  attribute="customer_id"
+                  label="Cliente"
+                  :data="data_select_customers"
+                  :model="enrollment"
+                  @changeSelect="changeSelect"/>
+                {{enrollment}}
+              </div>
+
+              <div class="col-4">
+                <SelectComponent 
+                  attribute="modality_id"
+                  label="Modalidades"
+                  :data="data_select_modalities"
+                  :model="enrollment"
+                  @changeSelect="changeSelect"/>
+                {{enrollment}}
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-4">
                 <InputComponent 
                   label="Nome"
                   name="name"
@@ -60,9 +81,12 @@
 
 <script>
 import mixins from '@/mixins';
+import CustomersService from '@/pages/Customers/services/CustomersService';
+import ModalitiesService from '@/pages/Modalities/services/ModalitiesService';
 import EnrollmentsService from './services/EnrollmentsService';
 import DashboardComponent from '../Dashboard/DashboardComponent';
 import InputComponent from '@/components/InputComponent';
+import SelectComponent from '@/components/SelectComponent';
 
 export default {
   name: 'EnrollmentCreate',
@@ -76,14 +100,36 @@ export default {
   },
   data(){
     return {
-      enrollment: {},
+      enrollment: {
+        name: '',
+        customer_id: 0,
+        modality_id: 0,
+      },
+      data_select_customers: [],
+      data_select_modalities: [],
     }
   },
   mounted(){
+    this.getCustomers();
+    this.getModalities();
     if(this.action != 'create')
       this.find();
   },
   methods: {
+    async getCustomers(){
+      await CustomersService.index().then(res => {
+        this.data_select_customers = CustomersService.formatDataInSelect(res.data.customers);
+      }).catch(err => {
+        console.log(err)
+      });
+    },
+    async getModalities(){
+      await ModalitiesService.index().then(res => {
+        this.data_select_modalities = ModalitiesService.formatDataInSelect(res.data.modalities);
+      }).catch(err => {
+        console.log(err)
+      });
+    },
     find(){
       const enrollment_id = this.$route.params.id;
 
@@ -134,6 +180,7 @@ export default {
   components: {
     DashboardComponent,
     InputComponent,
+    SelectComponent,
   }
 }
 </script>

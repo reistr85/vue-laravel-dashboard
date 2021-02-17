@@ -88,6 +88,10 @@ const mixins = {
         this[type] = this.data_list;
       }
     },
+    changeSelect(params){
+      const {value, model, attribute} = params;
+      model[attribute] = value;
+    },
   },
 };
 
