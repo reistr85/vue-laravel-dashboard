@@ -8,7 +8,8 @@
       <option 
         v-for="(item, index) in data" 
         :key="index"
-        :value="item.id">
+        :value="item.id"
+        :selected="item.id == itemSelected">
         {{ item.text }}
       </option>
     </select>
@@ -31,6 +32,10 @@ export default {
     },
     data: {
       type: Array
+    },
+    itemSelected: {
+      type: Number,
+      default: 0
     }
   },
   data(){

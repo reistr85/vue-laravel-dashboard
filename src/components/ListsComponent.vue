@@ -2,12 +2,14 @@
   <div class="lists">
     <div class="top mb-5">
       <ButtonSimpleComponent 
+        v-if="!noCreate"
         :icon="'fa-plus'" 
         :label="'Novo'" 
         :class_btn="'btn-success'" 
         @action="action_btn_new" />
 
       <InputComponent 
+        v-if="!noFilter"
         label=""
         name="value"
         id="value"
@@ -66,6 +68,14 @@ export default {
     route_btn: {
       type: String,
       default: ''
+    },
+    noFilter: {
+      type: Boolean,
+      default: false
+    },
+    noCreate: {
+      type: Boolean,
+      default: false
     }
   },
   watch: {

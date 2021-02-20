@@ -16,4 +16,15 @@ axios.interceptors.request.use(
     Promise.reject(error)
 });
 
+axios.interceptors.response.use(
+  async config => {
+    return config;
+  },
+  error => {
+    if(error.response.status == 401){
+      window.location="/#/login";
+    }
+    Promise.reject(error)
+});
+
 export default axios;

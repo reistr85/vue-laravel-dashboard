@@ -10,58 +10,75 @@
         <div class="content-header"></div>
 
         <div class="content-body">
-          <form>
-            <div class="row">
-              <div class="col-4">
-                <SelectComponent 
-                  attribute="customer_id"
-                  label="Cliente"
-                  :data="data_select_customers"
-                  :model="enrollment"
-                  @changeSelect="changeSelect"/>
+          <div class="content-form">
+            <form>
+              <div class="row">
+                <div class="col-4">
+                  <SelectComponent 
+                    attribute="customer_id"
+                    label="Cliente"
+                    :itemSelected="enrollment.customer_id"
+                    :data="data_select_customers"
+                    :model="enrollment"
+                    @changeSelect="changeSelect"/>
+                </div>
+
+                <div class="col-4">
+                  <SelectComponent 
+                    attribute="modality_id"
+                    label="Modalidades"
+                    :itemSelected="enrollment.modality_id"
+                    :data="data_select_modalities"
+                    :model="enrollment"
+                    @changeSelect="changeSelect"/>
+                </div>
+
+                <div class="col-4">
+                  <label for="price">Preço</label>
+                  <Money
+                    v-model="enrollment.price"
+                    v-bind="money"
+                    class="form-control"
+                    id="price"
+                    name="price" />
+                </div>
               </div>
 
-              <div class="col-4">
-                <SelectComponent 
-                  attribute="modality_id"
-                  label="Modalidades"
-                  :data="data_select_modalities"
-                  :model="enrollment"
-                  @changeSelect="changeSelect"/>
-              </div>
+              <div class="row mt-3">
+                <div class="col-4">
+                  <label for="price">Desconto</label>
+                  <Money
+                    v-model="enrollment.discount"
+                    v-bind="money"
+                    class="form-control"
+                    id="discount"
+                    name="discount" />
+                </div>
 
-              <div class="col-4">
-                <label for="price">Preço</label>
-                <Money
-                  v-model="enrollment.price"
-                  v-bind="money"
-                  class="form-control"
-                  id="price"
-                  name="price" />
+                <div class="col-4">
+                  <InputComponent 
+                    label="Vencimento"
+                    name="maturity_day"
+                    id="maturity_day"
+                    input_type="number"
+                    :model="enrollment" />
+                </div>
               </div>
-            </div>
+            </form>
+          </div>
 
-            <div class="row mt-3">
-              <div class="col-4">
-                <label for="price">Desconto</label>
-                <Money
-                  v-model="enrollment.discount"
-                  v-bind="money"
-                  class="form-control"
-                  id="discount"
-                  name="discount" />
-              </div>
+          <div class="content-installment">
+            <hr />
+            <h3>Parcelas</h3>
 
-              <div class="col-4">
-                <InputComponent 
-                  label="Vencimento"
-                  name="maturity_day"
-                  id="maturity_day"
-                  input_type="number"
-                  :model="enrollment" />
-              </div>
-            </div>
-          </form>
+            <ListsComponent 
+              :data="enrollment.installments" 
+              :columns="columnsList"
+              :route_btn="'enrollment_create'"
+              noCreate
+              noFilter
+               />
+          </div>
         </div>
 
         <div class="content-footer">
@@ -91,6 +108,7 @@ import CustomersService from '@/pages/Customers/services/CustomersService';
 import ModalitiesService from '@/pages/Modalities/services/ModalitiesService';
 import EnrollmentsService from './services/EnrollmentsService';
 import DashboardComponent from '../Dashboard/DashboardComponent';
+import ListsComponent from '@/components/ListsComponent';
 
 export default {
   name: 'EnrollmentCreate',
@@ -104,6 +122,15 @@ export default {
   },
   data(){
     return {
+      columnsList: {
+        'id': '#',
+        'due_date': 'Vencimento',
+        'paid_date': 'Data Pgto',
+        'price': 'Valor',
+        'discount': 'Desconto',
+        'total_paid': 'Total Pago',
+        'status': 'Status',
+      },
       money: {
         decimal: ",",
         thousands: ".",
@@ -150,8 +177,9 @@ export default {
 
       if(!enrollment_id)
         return;
-     
-      EnrollmentsService.show(enrollment_id).then(res => {
+
+      EnrollmentsService.show(enrollment_id)
+      .then(res => {
         this.enrollment = res.data.enrollment;
       }).catch(err => {
         console.log(err);
@@ -197,6 +225,7 @@ export default {
     InputComponent,
     SelectComponent,
     Money,
+    ListsComponent,
   }
 }
 </script>

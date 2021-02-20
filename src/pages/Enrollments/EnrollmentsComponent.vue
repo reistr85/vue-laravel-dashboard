@@ -79,7 +79,7 @@ export default {
       });
     },
     filter(filterSearch){
-      this.filterSearch(filterSearch, 'enrollments', 'customer_name');
+      this.filterSearch(filterSearch, 'enrollments', ['customer_name', 'modality_description']);
     },
   },
   components: {
