@@ -11,6 +11,7 @@
           :data="enrollments" 
           :columns="columnsList"
           :route_btn="'enrollment_create'"
+          noActions
           @filter="filter"
           @show="show"
           @destroy="destroy" />

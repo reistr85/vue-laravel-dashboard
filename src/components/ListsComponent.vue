@@ -35,10 +35,15 @@
               <p class="m-0 my-1">{{ i == 0 ? index+1 : item[column] }}</p>
             </td>
             <td align="right">
-              <button class="btn btn-secondary btn-sm" @click.prevent="show(item.id)">
+              <button class="btn btn-primary btn-sm mx-1" v-if="!noActions" @click.prevent="functionActions(item)">
+                <i class="fa fa-plus-circle"></i>
+              </button>
+              <button class="btn btn-secondary btn-sm mx-1" v-if="!noShow" @click.prevent="show(item.id)">
                 <i class="fa fa-eye"></i>
-                </button>
-              <button class="btn btn-danger btn-sm mx-1" @click="destroy(item.id)"><i class="fa fa-trash"></i></button>
+              </button>
+              <button class="btn btn-danger btn-sm mx-1" v-if="!noDestroy" @click="destroy(item.id)">
+                <i class="fa fa-trash"></i>
+              </button>
             </td>
           </tr>
         </tbody>
@@ -76,6 +81,18 @@ export default {
     noCreate: {
       type: Boolean,
       default: false
+    },
+    noActions: {
+      type: Boolean,
+      default: false
+    },
+    noShow: {
+      type: Boolean,
+      default: false
+    },
+    noDestroy: {
+      type: Boolean,
+      default: false
     }
   },
   watch: {
@@ -106,6 +123,12 @@ export default {
     },
     action_btn_new(){
       this.$router.push({name: this.route_btn});
+    },
+    functionActions(item){
+      const params = {
+        ...item
+      }
+      this.$emit('functionActions', params);
     }
   },
   components: {

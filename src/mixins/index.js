@@ -95,7 +95,11 @@ const mixins = {
     },
     changeSelect(params){
       const {value, model, attribute} = params;
-      model[attribute] = value;
+      model[attribute] = parseInt(value);
+
+      if (typeof this.changeSelectLocal == "function") { 
+        this.changeSelectLocal(params);
+      }
     },
   },
 };

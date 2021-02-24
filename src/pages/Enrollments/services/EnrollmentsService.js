@@ -1,5 +1,6 @@
 /* eslint-disable */
 import axios from 'axios';
+import * as AppUtils  from '@/constants/options'
 
 const baseURL = "/enrollments";
 
@@ -67,8 +68,10 @@ const EnrollmentsService = {
 
       if(item.installments){
         item.installments.forEach((item) => {
-          item.price = `R$ ${item.price}`;
+          item.price_formated = `R$ ${item.price}`;
+          item.discount_formated = `R$ ${item.discount}`;
           item.due_date = `${item.due_date.substr(8, 2)}/${item.due_date.substr(5, 2)}/${item.due_date.substr(0, 4)}`;
+          item.status_formated = this.getInstallmentStatusText(item.status);
         });
       }
     }
@@ -85,7 +88,11 @@ const EnrollmentsService = {
       format(data);
       return responseData;
     }
-  }
+  },
+  getInstallmentStatusText(value){
+    if(!value) return "";
+    return AppUtils.getOptionText('installment_status', value);
+  },
 }
 
 export default EnrollmentsService;

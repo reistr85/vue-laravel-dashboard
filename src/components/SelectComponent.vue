@@ -9,7 +9,7 @@
         v-for="(item, index) in data" 
         :key="index"
         :value="item.id"
-        :selected="item.id == itemSelected">
+        :selected="itemSelected && item.id == itemSelected">
         {{ item.text }}
       </option>
     </select>

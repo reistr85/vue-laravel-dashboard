@@ -58,8 +58,8 @@
                 <div class="col-4">
                   <InputComponent 
                     label="Vencimento"
-                    name="maturity_day"
-                    id="maturity_day"
+                    name="due_day"
+                    id="due_day"
                     input_type="number"
                     :model="enrollment" />
                 </div>
@@ -67,7 +67,7 @@
             </form>
           </div>
 
-          <div class="content-installment">
+          <div class="content-installment" v-if="action != 'create'">
             <hr />
             <h3>Parcelas</h3>
 
@@ -75,9 +75,16 @@
               :data="enrollment.installments" 
               :columns="columnsList"
               :route_btn="'enrollment_create'"
+              @functionActions="functionActions"
               noCreate
               noFilter
+              noShow
                />
+
+              <ModalActionsComponent 
+                ref="modalActions"
+                :installmentSelected="installmentSelected"
+                @paidinstallment="paidinstallment" />
           </div>
         </div>
 
@@ -109,6 +116,7 @@ import ModalitiesService from '@/pages/Modalities/services/ModalitiesService';
 import EnrollmentsService from './services/EnrollmentsService';
 import DashboardComponent from '../Dashboard/DashboardComponent';
 import ListsComponent from '@/components/ListsComponent';
+import ModalActionsComponent from './components/ModalActionsComponent';
 
 export default {
   name: 'EnrollmentCreate',
@@ -120,16 +128,21 @@ export default {
       default: 'create'
     }
   },
+  watch: {
+    ['installmentSelected.discount'](){
+      this.installmentSelected.total_paid = (parseFloat(this.installmentSelected.price) + parseFloat(this.installmentSelected.discount))
+    }
+  },
   data(){
     return {
       columnsList: {
         'id': '#',
         'due_date': 'Vencimento',
         'paid_date': 'Data Pgto',
-        'price': 'Valor',
-        'discount': 'Desconto',
+        'price_formated': 'Valor',
+        'discount_formated': 'Desconto',
         'total_paid': 'Total Pago',
-        'status': 'Status',
+        'status_formated': 'Status',
       },
       money: {
         decimal: ",",
@@ -144,8 +157,13 @@ export default {
         modality_id: 0,
         price: '',
         discount: '',
-        maturity_day: '',
-        payment_status: 1,
+        due_day: '',
+        status: 'paid',
+      },
+      installmentSelected: {
+        price: 0,
+        discount: 0,
+        total_paid: 0,
       },
       data_select_customers: [],
       data_select_modalities: [],
@@ -181,6 +199,7 @@ export default {
       EnrollmentsService.show(enrollment_id)
       .then(res => {
         this.enrollment = res.data.enrollment;
+        //console.log(this.enrollment)
       }).catch(err => {
         console.log(err);
       });
@@ -219,6 +238,24 @@ export default {
         }
       });
     },
+    changeSelectLocal(params){
+      const { attribute, value } = params;
+
+      if(attribute == 'modality_id'){
+        ModalitiesService.show(value).then(res => {
+          this.enrollment.price = res.data.modality.price;
+        }).catch(err => {
+          console.log(err);
+        })
+      }
+    },
+    functionActions(item){
+      this.installmentSelected = item;
+      this.$refs.modalActions.$refs.btnModal.click()
+    },
+    paidinstallment(){
+      console.log(this.installmentSelected);
+    }
   },
   components: {
     DashboardComponent,
@@ -226,6 +263,7 @@ export default {
     SelectComponent,
     Money,
     ListsComponent,
+    ModalActionsComponent,
   }
 }
 </script>
