@@ -75,9 +75,9 @@
               :data="enrollment.installments" 
               :columns="columnsList"
               :route_btn="'enrollment_create'"
+              titleCreate="Nova Parcela"
               @functionActions="functionActions"
               @destroy="destroy"
-              noCreate
               noFilter
               noShow
                />

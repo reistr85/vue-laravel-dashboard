@@ -4,7 +4,7 @@
       <ButtonSimpleComponent 
         v-if="!noCreate"
         :icon="'fa-plus'" 
-        :label="'Novo'" 
+        :label="titleCreate" 
         :class_btn="'btn-success'" 
         @action="action_btn_new" />
 
@@ -69,6 +69,10 @@ export default {
   props: {
     data: Array,
     description: String,
+    titleCreate: {
+      type: String,
+      default: 'Novo'
+    },
     columns: {},
     route_btn: {
       type: String,

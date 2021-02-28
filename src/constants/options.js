@@ -8,10 +8,8 @@ export const options = [{
 }]
 
 export function getOptionText(key, value) {
-  const options = this.options[0];
-  
-  if (value && options[key]) {
-    const item = options[key].find((element) => element.value === value);
+  if (value && options[0][key]) {
+    const item = options[0][key].find((element) => element.value === value);
     return (item && item.text) || '';
   }
   return '';
