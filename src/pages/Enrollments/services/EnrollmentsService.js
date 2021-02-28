@@ -62,6 +62,44 @@ const EnrollmentsService = {
       })
     })
   },
+  pay(params){
+    const { total_paid, discount, paid_date, status } = params;
+
+      const payload = {
+        total_paid,
+        discount,
+        paid_date ,
+        status,
+      }
+    return new Promise((resolve, reject) => {
+      axios.put(`${baseURL}/installment/${params.id}`, payload)
+      .then(resp => {
+        resolve(resp);
+      })
+      .catch(err => {
+        reject(err);
+      })
+    })
+  },
+  reversePayment(params){
+    const { total_paid, discount, paid_date, status } = params;
+
+      const payload = {
+        total_paid,
+        discount,
+        paid_date,
+        status
+      }
+    return new Promise((resolve, reject) => {
+      axios.put(`${baseURL}/installment/${params.id}`, payload)
+      .then(resp => {
+        resolve(resp);
+      })
+      .catch(err => {
+        reject(err);
+      })
+    })
+  },
   formatResponseData(data, type = 'table'){
     const format = (item) => {
       item.price = `R$ ${item.price}`;
@@ -70,7 +108,11 @@ const EnrollmentsService = {
         item.installments.forEach((item) => {
           item.price_formated = `R$ ${item.price}`;
           item.discount_formated = `R$ ${item.discount}`;
+          item.total_paid_formated = item.total_paid ? `R$ ${item.total_paid}` : '';
           item.due_date = `${item.due_date.substr(8, 2)}/${item.due_date.substr(5, 2)}/${item.due_date.substr(0, 4)}`;
+          
+          if(item.paid_date)
+            item.paid_date = `${item.paid_date.substr(8, 2)}/${item.paid_date.substr(5, 2)}/${item.paid_date.substr(0, 4)}`;
           item.status_formated = this.getInstallmentStatusText(item.status);
         });
       }

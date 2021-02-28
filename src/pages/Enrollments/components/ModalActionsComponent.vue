@@ -1,5 +1,5 @@
 <template>
-  <div>s
+  <div>
     <button type="button" ref="btnModal" class="d-none" data-toggle="modal" data-target=".bd-example-modal-lg"></button>
 
       <div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" 
@@ -55,8 +55,8 @@
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary btn-sm" @click.prevent="paidinstallment()">Pagar Parcela</button>
-              <button type="button" class="btn btn-danger btn-sm">Cancelar Parcela</button>
+              <button type="button" class="btn btn-primary btn-sm" @click.prevent="paidInstallment()">Pagar Parcela</button>
+              <button type="button" class="btn btn-danger btn-sm" @click.prevent="cancelInstallment()">Cancelar Parcela</button>
             </div>
           </div>
         </div>
@@ -66,6 +66,7 @@
 
 <script>
 import { Money } from "v-money";
+import mixins from '@/mixins';
 import InputComponent from '@/components/InputComponent';
 
 export default {
@@ -87,9 +88,13 @@ export default {
       },
     }
   },
+  mixins: [mixins],
   methods: {
-    paidinstallment(){
-      this.$emit('paidinstallment');
+    paidInstallment(){
+      this.$emit('paidInstallment');
+    },
+    cancelInstallment(){
+      this.$emit('cancelInstallment');
     }
   },
   components: {

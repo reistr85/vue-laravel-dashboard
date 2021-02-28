@@ -101,6 +101,17 @@ const mixins = {
         this.changeSelectLocal(params);
       }
     },
+    currentDate(languege = 'en'){
+      const today = new Date();
+      const dd = String(today.getDate()).padStart(2, '0');
+      const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      const yyyy = today.getFullYear();
+
+      if(languege === 'pt')
+        return `${dd}/${mm}/${yyyy}`;
+
+      return `${yyyy}-${mm}-${dd}`;
+    }
   },
 };
 

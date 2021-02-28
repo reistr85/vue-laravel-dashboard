@@ -76,6 +76,7 @@
               :columns="columnsList"
               :route_btn="'enrollment_create'"
               @functionActions="functionActions"
+              @destroy="destroy"
               noCreate
               noFilter
               noShow
@@ -84,7 +85,8 @@
               <ModalActionsComponent 
                 ref="modalActions"
                 :installmentSelected="installmentSelected"
-                @paidinstallment="paidinstallment" />
+                @paidInstallment="paidInstallment"
+                @cancelInstallment="cancelInstallment" />
           </div>
         </div>
 
@@ -140,8 +142,8 @@ export default {
         'due_date': 'Vencimento',
         'paid_date': 'Data Pgto',
         'price_formated': 'Valor',
-        'discount_formated': 'Desconto',
-        'total_paid': 'Total Pago',
+        'discount_formated': 'Diferença',
+        'total_paid_formated': 'Total Pago',
         'status_formated': 'Status',
       },
       money: {
@@ -238,6 +240,26 @@ export default {
         }
       });
     },
+    destroy(id){
+      this.alertConfirmation(
+        "Excluir parcela",
+        "Você realmente deseja excluir esta parcela?",
+        "question"
+      ).then((res) => {
+        if (res) {
+          EnrollmentsService.destroyInstallment(id).then(() => {
+            this.toastMessage("Excluído com sucesso.", "success");
+            this.find();
+          }).catch(err => {
+            if(err.response.status == 500){
+              this.toastMessage(err.response.data.message);
+            }else{
+              this.toastMessage("Erro ao exclui a parcela.");
+            }
+          });
+        }
+      });
+    },
     changeSelectLocal(params){
       const { attribute, value } = params;
 
@@ -251,11 +273,68 @@ export default {
     },
     functionActions(item){
       this.installmentSelected = item;
+      this.installmentSelected.paid_date = this.currentDate();
       this.$refs.modalActions.$refs.btnModal.click()
     },
-    paidinstallment(){
-      console.log(this.installmentSelected);
-    }
+    paidInstallment(){
+      const {id, total_paid, discount, paid_date, status } = this.installmentSelected;
+
+      if(status === 'paid'){
+        this.toastMessage("A parcela já está paga.");
+        return;
+      }
+
+      const params = {
+        id,
+        total_paid,
+        discount,
+        paid_date,
+        status: 'paid'
+      }
+
+      EnrollmentsService.pay(params).then(() => {
+        this.find();
+        this.$refs.modalActions.$refs.btnModal.click()
+      }).catch(err => {
+        console.log(err)
+      });
+    },
+    cancelInstallment(){
+      const {id, status} = this.installmentSelected;
+
+      if(status === 'unpaid'){
+        this.toastMessage("Não é possível cancelar uma parcela em aberto.");
+        return;
+      }
+
+      const params = {
+        id,
+        total_paid: null,
+        discount: 0,
+        paid_date: null,
+        status: 'unpaid'
+      }
+
+      this.alertConfirmation(
+        "Cancelar pagamemto",
+        "Você realmente deseja cancelar este pagamento?",
+        "question"
+      ).then((res) => {
+        if (res) {
+          EnrollmentsService.reversePayment(params).then(() => {
+            this.$refs.modalActions.$refs.btnModal.click();
+            this.toastMessage("Cancelado com sucesso.", "success");
+            this.find();
+          }).catch(err => {
+            if(err.response.status == 500){
+              this.toastMessage(err.response.data.message);
+            }else{
+              this.toastMessage("Erro ao cancelar o pagamento.");
+            }
+          });
+        }
+      });
+    },
   },
   components: {
     DashboardComponent,
