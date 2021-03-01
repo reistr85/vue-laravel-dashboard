@@ -57,7 +57,7 @@ export default {
       });
     },
     show(id){
-      this.$router.push({name: 'enrollment_show', params: {id, action: 'update'}});
+      this.$router.push({name: 'enrollment_show', params: { id }});
     },
     destroy(id){
       this.alertConfirmation(

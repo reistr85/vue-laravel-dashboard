@@ -74,7 +74,7 @@
             <ListsComponent 
               :data="enrollment.installments" 
               :columns="columnsList"
-              :route_btn="'enrollment_installment_create'"
+              :route_btn="'enrollment_create'"
               titleCreate="Nova Parcela"
               @functionActions="functionActions"
               @destroy="destroy"
@@ -91,9 +91,9 @@
         </div>
 
         <div class="content-footer">
-          <router-link :to="{name: 'enrollments'}" class="btn btn-primary btn-sm" title="voltar">
+          <a @click.prevent="back()" class="btn btn-primary btn-sm" title="voltar">
             <i class="fa fa-reply-all"></i> voltar
-          </router-link>
+          </a>
 
           <button 
             class="btn btn-success btn-sm mx-2" 
@@ -124,6 +124,12 @@ export default {
   name: 'EnrollmentCreate',
 
   mixins: [mixins],
+  props: {
+    action: {
+      type: String,
+      default: 'create'
+    }
+  },
   watch: {
     ['installmentSelected.discount'](){
       this.installmentSelected.total_paid = (parseFloat(this.installmentSelected.price) + parseFloat(this.installmentSelected.discount))
@@ -168,7 +174,7 @@ export default {
   mounted(){
     this.getCustomers();
     this.getModalities();
-    if(this.action == 'show')
+    if(this.action != 'create')
       this.find();
   },
   methods: {
@@ -195,31 +201,25 @@ export default {
       EnrollmentsService.show(enrollment_id)
       .then(res => {
         this.enrollment = res.data.enrollment;
+        //console.log(this.enrollment)
       }).catch(err => {
         console.log(err);
       });
     },
     confirm(){
-      let action = 'create'
-      if(this.action === 'show')
-        action = 'update';
-
-      this[action]();
+      this[this.action]();
     },
     create(){
-      EnrollmentsService.store(this.enrollment)
-        .then(() => {
-          this.toastMessage("Realizado com sucesso.", "success");
-          this.$router.push({name: 'enrollments'});
-        }).catch(err => {
-          if(err.response.status === 422){
-            this.toastMessage(err.response.data.errors);
-          }else if(err.response.status === 500){
-            this.toastMessage(err.response.data.message);
-          }else{
-            this.toastMessage("Ocorreu um erro. Tente novamente!");
-          }
-        });
+      EnrollmentsService.store(this.enrollment).then(() => {
+        this.toastMessage("Realizado com sucesso.", "success");
+        this.$router.push({name: 'enrollments'});
+      }).catch(err => {
+        if(err.response.status === 422){
+          this.toastMessage(err.response.data.errors);
+        }else{
+          this.toastMessage("Ocorreu um erro. Tente novamente!");
+        }
+      });
     },
     update(){
       const enrollment = {
@@ -334,6 +334,10 @@ export default {
           });
         }
       });
+    },
+    back(){
+      const { id } = this.$route.params
+      this.$router.push({name: 'enrollment_show', params: {id, action: 'update'}});
     },
   },
   components: {

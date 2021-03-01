@@ -29,7 +29,7 @@ const EnrollmentsService = {
       })
     })
   },
-  store(enrollment) {
+  async store(enrollment) {
     return new Promise((resolve, reject) => {
       axios.post(`${baseURL}`, enrollment)
       .then(resp => {

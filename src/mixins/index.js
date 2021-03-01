@@ -1,6 +1,8 @@
 const mixins = {
-  computed:{
-    
+  computed: {
+    action(){
+      return this.$route.meta.action
+    }
   },
   methods: {
     limitCaracters(string, limit) {

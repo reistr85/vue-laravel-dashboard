@@ -11,7 +11,8 @@ export default [
     meta:{
       title: 'Usuários',
       description: 'Lista de todos os usuários cadastrados no sistema.',
-      requiresAuth: true
+      requiresAuth: true,
+      action: 'list',
     }
   },
   {
@@ -22,7 +23,8 @@ export default [
     meta:{
       title: 'Usuário selecionado',
       description: 'Exibe todos os dados do usuário selecionado.',
-      requiresAuth: true
+      requiresAuth: true,
+      action: 'show',
     }
   },
   {
@@ -32,7 +34,8 @@ export default [
     meta:{
       title: 'Novo Usuário',
       description: 'Preencha todos os dados para cadastrar um novo usuário.',
-      requiresAuth: true
+      requiresAuth: true,
+      action: 'create',
     }
   }
 ]

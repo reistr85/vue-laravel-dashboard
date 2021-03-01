@@ -76,12 +76,6 @@ import InputComponent from '@/components/InputComponent';
 export default {
   name: 'UserCreate',
   mixins: [mixins],
-  props: {
-    action: {
-      type: String,
-      default: 'create'
-    }
-  },
   data(){
     return {
       user: {}
@@ -104,7 +98,11 @@ export default {
       });
     },
     confirm(){
-      this[this.action]();
+      let action = 'create'
+      if(this.action === 'show')
+        action = 'update';
+
+      this[action]();
     },
     create(){
       this.user.type = 'D';
