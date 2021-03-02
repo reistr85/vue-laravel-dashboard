@@ -62,12 +62,6 @@ import InputComponent from '@/components/InputComponent';
 export default {
   name: 'ModalityCreate',
   mixins: [mixins],
-  props: {
-    action: {
-      type: String,
-      default: 'create'
-    }
-  },
   data(){
     return {
       money: {
@@ -78,7 +72,10 @@ export default {
         precision: 2,
         masked: false,
       },
-      modality: {},
+      modality: {
+        description: '',
+        price: 0,
+      },
       price: 0,
     }
   },
@@ -100,8 +97,11 @@ export default {
       });
     },
     confirm(){
-      console.log(this.action)
-      this[this.action]();
+      let action = 'create'
+      if(this.action === 'show')
+        action = 'update';
+
+      this[action]();
     },
     create(){
       ModalitiesService.store(this.modality).then(() => {

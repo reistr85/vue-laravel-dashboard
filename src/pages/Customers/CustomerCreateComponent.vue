@@ -68,15 +68,13 @@ export default {
   name: 'CustomerCreate',
 
   mixins: [mixins],
-  props: {
-    action: {
-      type: String,
-      default: 'create'
-    }
-  },
   data(){
     return {
-      customer: {},
+      customer: {
+        name: '',
+        email: '',
+        cell_phone: '',
+      },
     }
   },
   mounted(){
@@ -97,7 +95,11 @@ export default {
       });
     },
     confirm(){
-      this[this.action]();
+      let action = 'create'
+      if(this.action === 'show')
+        action = 'update';
+
+      this[action]();
     },
     create(){
       CustomersService.store(this.customer).then(() => {

@@ -41,7 +41,7 @@ export default [
     }
   },
   {
-    path: `${baseURL}/nova-matricula/:id/nova-parcela`,
+    path: `${baseURL}/matricula/:id/nova-parcela`,
     name: 'enrollment_installment_create',
     component: EnrollmentInstallmentCreateComponent,
     meta:{

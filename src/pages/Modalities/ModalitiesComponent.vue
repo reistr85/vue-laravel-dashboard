@@ -11,6 +11,7 @@
           :data="modalities" 
           :columns="columnsList"
           :route_btn="'modality_create'"
+          noActions
           @filter="filter"
           @show="show"
           @destroy="destroy" />

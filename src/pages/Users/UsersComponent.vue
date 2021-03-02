@@ -11,6 +11,7 @@
           :data="users" 
           :columns="columnsList"
           :route_btn="'user_create'"
+          noActions
           @filter="filter"
           @show="show"
           @destroy="destroy" />

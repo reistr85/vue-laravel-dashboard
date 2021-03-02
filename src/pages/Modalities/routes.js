@@ -11,7 +11,8 @@ export default [
     meta:{
       title: 'Modalidades',
       description: 'Lista de todos as modalidades cadastradas no sistema.',
-      requiresAuth: true
+      requiresAuth: true,
+      action: 'list',
     }
   },
   {
@@ -22,7 +23,8 @@ export default [
     meta:{
       title: 'Modalidade selecionada',
       description: 'Exibe todos os dados da modalidade selecionada.',
-      requiresAuth: true
+      requiresAuth: true,
+      action: 'show',
     }
   },
   {
@@ -32,7 +34,8 @@ export default [
     meta:{
       title: 'Nova modalidade',
       description: 'Preencha todos os dados para cadastrar uma nova modalidade.',
-      requiresAuth: true
+      requiresAuth: true,
+      action: 'create',
     }
   }
 ]

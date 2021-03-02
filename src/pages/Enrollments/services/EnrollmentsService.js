@@ -63,16 +63,21 @@ const EnrollmentsService = {
     })
   },
   pay(params){
-    const { total_paid, discount, paid_date, status } = params;
+    const { enrollment_id, id, total_paid, discount, paid_date, status, due_date, price } = params;
 
-      const payload = {
-        total_paid,
-        discount,
-        paid_date ,
-        status,
-      }
+    const payload = {
+      enrollment_id,
+      id,
+      total_paid,
+      discount,
+      paid_date,
+      status,
+      due_date,
+      price
+    }
+
     return new Promise((resolve, reject) => {
-      axios.put(`${baseURL}/installment/${params.id}`, payload)
+      axios.put(`${baseURL}/${enrollment_id}/installment/${params.id}`, payload)
       .then(resp => {
         resolve(resp);
       })
@@ -82,16 +87,21 @@ const EnrollmentsService = {
     })
   },
   reversePayment(params){
-    const { total_paid, discount, paid_date, status } = params;
+    const { enrollment_id, id, total_paid, discount, paid_date, status, due_date, price } = params;
 
-      const payload = {
-        total_paid,
-        discount,
-        paid_date,
-        status
-      }
+    const payload = {
+      enrollment_id,
+      id,
+      total_paid,
+      discount,
+      paid_date,
+      status,
+      due_date,
+      price
+    }
+
     return new Promise((resolve, reject) => {
-      axios.put(`${baseURL}/installment/${params.id}`, payload)
+      axios.put(`${baseURL}/${enrollment_id}/installment/${params.id}`, payload)
       .then(resp => {
         resolve(resp);
       })

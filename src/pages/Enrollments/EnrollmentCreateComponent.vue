@@ -277,7 +277,8 @@ export default {
       this.$refs.modalActions.$refs.btnModal.click()
     },
     paidInstallment(){
-      const {id, total_paid, discount, paid_date, status } = this.installmentSelected;
+      const {enrollment_id ,id, total_paid, discount, paid_date, 
+      status, due_date, price } = this.installmentSelected;
 
       if(status === 'paid'){
         this.toastMessage("A parcela já está paga.");
@@ -285,22 +286,26 @@ export default {
       }
 
       const params = {
+        enrollment_id,
         id,
         total_paid,
         discount,
         paid_date,
-        status: 'paid'
+        status: 'paid',
+        due_date,
+        price,
       }
 
       EnrollmentsService.pay(params).then(() => {
         this.find();
-        this.$refs.modalActions.$refs.btnModal.click()
+        this.$refs.modalActions.$refs.btnModal.click();
+        this.toastMessage("Pagamento realizado com sucesso.", "success");
       }).catch(err => {
         console.log(err)
       });
     },
     cancelInstallment(){
-      const {id, status} = this.installmentSelected;
+      const {enrollment_id ,id, status, due_date, price } = this.installmentSelected;
 
       if(status === 'unpaid'){
         this.toastMessage("Não é possível cancelar uma parcela em aberto.");
@@ -308,11 +313,14 @@ export default {
       }
 
       const params = {
+        enrollment_id,
         id,
         total_paid: null,
         discount: 0,
         paid_date: null,
-        status: 'unpaid'
+        status: 'unpaid',
+        due_date,
+        price,
       }
 
       this.alertConfirmation(

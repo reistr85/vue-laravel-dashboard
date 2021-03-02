@@ -11,7 +11,8 @@ export default [
     meta:{
       title: 'Clientes',
       description: 'Lista de todos os clientes cadastrados no sistema.',
-      requiresAuth: true
+      requiresAuth: true,
+      action: 'list',
     }
   },
   {
@@ -22,7 +23,8 @@ export default [
     meta:{
       title: 'Cliente selecionado',
       description: 'Exibe todos os dados do cliente selecionado.',
-      requiresAuth: true
+      requiresAuth: true,
+      action: 'show',
     }
   },
   {
@@ -32,7 +34,8 @@ export default [
     meta:{
       title: 'Novo cliente',
       description: 'Preencha todos os dados para cadastrar um novo cliente.',
-      requiresAuth: true
+      requiresAuth: true,
+      action: 'create',
     }
   }
 ]

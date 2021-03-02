@@ -11,6 +11,7 @@
           :data="customers" 
           :columns="columnsList"
           :route_btn="'customer_create'"
+          noActions
           @filter="filter"
           @show="show"
           @destroy="destroy" />
