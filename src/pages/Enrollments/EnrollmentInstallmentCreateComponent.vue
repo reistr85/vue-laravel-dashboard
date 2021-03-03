@@ -14,41 +14,40 @@
             <form>
               <div class="row">
                 <div class="col-4">
-                  <SelectComponent 
-                    attribute="customer_id"
+                  <InputComponent 
                     label="Cliente"
-                    :itemSelected="enrollment.customer_id"
-                    :data="data_select_customers"
-                    :model="enrollment"
-                    @changeSelect="changeSelect"/>
+                    name="name"
+                    id="name"
+                    input_type="text"
+                    readonly
+                    :model="customer" />
                 </div>
 
                 <div class="col-4">
-                  <SelectComponent 
-                    attribute="modality_id"
-                    label="Modalidades"
-                    :itemSelected="enrollment.modality_id"
-                    :data="data_select_modalities"
-                    :model="enrollment"
-                    @changeSelect="changeSelect"/>
+                  <InputComponent 
+                    label="Modalidade"
+                    name="description"
+                    id="description"
+                    input_type="text"
+                    readonly
+                    :model="modality" />
                 </div>
 
                 <div class="col-4">
-                  <label for="price">Preço</label>
-                  <Money
-                    v-model="enrollment.price"
-                    v-bind="money"
-                    class="form-control"
-                    id="price"
-                    name="price" />
+                  <InputComponent 
+                    label="Vencimento"
+                    name="due_date"
+                    id="due_date"
+                    input_type="date"
+                    :model="installment" />
                 </div>
               </div>
 
               <div class="row mt-3">
                 <div class="col-4">
-                  <label for="price">Desconto</label>
+                  <label for="price">Valor</label>
                   <Money
-                    v-model="enrollment.discount"
+                    v-model="installment.price"
                     v-bind="money"
                     class="form-control"
                     id="discount"
@@ -56,37 +55,16 @@
                 </div>
 
                 <div class="col-4">
-                  <InputComponent 
-                    label="Vencimento"
-                    name="due_day"
-                    id="due_day"
-                    input_type="number"
-                    :model="enrollment" />
+                  <label for="price">Desconto</label>
+                  <Money
+                    v-model="installment.discount"
+                    v-bind="money"
+                    class="form-control"
+                    id="discount"
+                    name="discount" />
                 </div>
               </div>
             </form>
-          </div>
-
-          <div class="content-installment" v-if="action != 'create'">
-            <hr />
-            <h3>Parcelas</h3>
-
-            <ListsComponent 
-              :data="enrollment.installments" 
-              :columns="columnsList"
-              :route_btn="'enrollment_create'"
-              titleCreate="Nova Parcela"
-              @functionActions="functionActions"
-              @destroy="destroy"
-              noFilter
-              noShow
-               />
-
-              <ModalActionsComponent 
-                ref="modalActions"
-                :installmentSelected="installmentSelected"
-                @paidInstallment="paidInstallment"
-                @cancelInstallment="cancelInstallment" />
           </div>
         </div>
 
@@ -111,25 +89,14 @@
 <script>
 import mixins from '@/mixins';
 import InputComponent from '@/components/InputComponent';
-import SelectComponent from '@/components/SelectComponent';
 import { Money } from "v-money";
-import CustomersService from '@/pages/Customers/services/CustomersService';
-import ModalitiesService from '@/pages/Modalities/services/ModalitiesService';
 import EnrollmentsService from './services/EnrollmentsService';
 import DashboardComponent from '../Dashboard/DashboardComponent';
-import ListsComponent from '@/components/ListsComponent';
-import ModalActionsComponent from './components/ModalActionsComponent';
 
 export default {
-  name: 'EnrollmentCreate',
+  name: 'EnrollmentInstallmentCreate',
 
   mixins: [mixins],
-  props: {
-    action: {
-      type: String,
-      default: 'create'
-    }
-  },
   watch: {
     ['installmentSelected.discount'](){
       this.installmentSelected.total_paid = (parseFloat(this.installmentSelected.price) + parseFloat(this.installmentSelected.discount))
@@ -137,15 +104,6 @@ export default {
   },
   data(){
     return {
-      columnsList: {
-        'id': '#',
-        'due_date': 'Vencimento',
-        'paid_date': 'Data Pgto',
-        'price_formated': 'Valor',
-        'discount_formated': 'Diferença',
-        'total_paid_formated': 'Total Pago',
-        'status_formated': 'Status',
-      },
       money: {
         decimal: ",",
         thousands: ".",
@@ -154,13 +112,12 @@ export default {
         precision: 2,
         masked: false,
       },
-      enrollment: {
-        customer_id: 0,
-        modality_id: 0,
-        price: '',
+      customer: {},
+      modality: {},
+      installment: {
+        due_date: '',
         discount: '',
-        due_day: '',
-        status: 'paid',
+        price: '0'
       },
       installmentSelected: {
         price: 0,
@@ -172,26 +129,9 @@ export default {
     }
   },
   mounted(){
-    this.getCustomers();
-    this.getModalities();
-    if(this.action != 'create')
-      this.find();
+    this.find();
   },
   methods: {
-    async getCustomers(){
-      await CustomersService.index().then(res => {
-        this.data_select_customers = CustomersService.formatDataInSelect(res.data.customers);
-      }).catch(err => {
-        console.log(err)
-      });
-    },
-    async getModalities(){
-      await ModalitiesService.index().then(res => {
-        this.data_select_modalities = ModalitiesService.formatDataInSelect(res.data.modalities);
-      }).catch(err => {
-        console.log(err)
-      });
-    },
     find(){
       const enrollment_id = this.$route.params.id;
 
@@ -200,8 +140,10 @@ export default {
 
       EnrollmentsService.show(enrollment_id)
       .then(res => {
-        this.enrollment = res.data.enrollment;
-        //console.log(this.enrollment)
+        this.customer = res.data.enrollment.customer;
+        this.modality = res.data.enrollment.modality;
+        this.installment.due_date = this.currentDate();
+        this.installment.price = res.data.enrollment.price;
       }).catch(err => {
         console.log(err);
       });
@@ -210,7 +152,7 @@ export default {
       this[this.action]();
     },
     create(){
-      EnrollmentsService.store(this.enrollment).then(() => {
+      EnrollmentsService.storeInstallment(this.installment).then(() => {
         this.toastMessage("Realizado com sucesso.", "success");
         this.$router.push({name: 'enrollments'});
       }).catch(err => {
@@ -218,120 +160,6 @@ export default {
           this.toastMessage(err.response.data.errors);
         }else{
           this.toastMessage("Ocorreu um erro. Tente novamente!");
-        }
-      });
-    },
-    update(){
-      const enrollment = {
-        id: this.enrollment.id,
-        name: this.enrollment.name,
-        email: this.enrollment.email,
-        cell_phone: this.enrollment.cell_phone,
-      }
-
-      EnrollmentsService.update(enrollment).then(() => {
-        this.toastMessage("Realizado com sucesso.", "success");
-        this.$router.push({name: 'enrollments'});
-      }).catch(err => {
-        if(err.response.status === 422){
-          this.toastMessage(err.response.data.errors);
-        }else{
-          this.toastMessage("Ocorreu um erro. Tente novamente!");
-        }
-      });
-    },
-    destroy(id){
-      this.alertConfirmation(
-        "Excluir parcela",
-        "Você realmente deseja excluir esta parcela?",
-        "question"
-      ).then((res) => {
-        if (res) {
-          EnrollmentsService.destroyInstallment(id).then(() => {
-            this.toastMessage("Excluído com sucesso.", "success");
-            this.find();
-          }).catch(err => {
-            if(err.response.status == 500){
-              this.toastMessage(err.response.data.message);
-            }else{
-              this.toastMessage("Erro ao exclui a parcela.");
-            }
-          });
-        }
-      });
-    },
-    changeSelectLocal(params){
-      const { attribute, value } = params;
-
-      if(attribute == 'modality_id'){
-        ModalitiesService.show(value).then(res => {
-          this.enrollment.price = res.data.modality.price;
-        }).catch(err => {
-          console.log(err);
-        })
-      }
-    },
-    functionActions(item){
-      this.installmentSelected = item;
-      this.installmentSelected.paid_date = this.currentDate();
-      this.$refs.modalActions.$refs.btnModal.click()
-    },
-    paidInstallment(){
-      const {id, total_paid, discount, paid_date, status } = this.installmentSelected;
-
-      if(status === 'paid'){
-        this.toastMessage("A parcela já está paga.");
-        return;
-      }
-
-      const params = {
-        id,
-        total_paid,
-        discount,
-        paid_date,
-        status: 'paid'
-      }
-
-      EnrollmentsService.pay(params).then(() => {
-        this.find();
-        this.$refs.modalActions.$refs.btnModal.click()
-      }).catch(err => {
-        console.log(err)
-      });
-    },
-    cancelInstallment(){
-      const {id, status} = this.installmentSelected;
-
-      if(status === 'unpaid'){
-        this.toastMessage("Não é possível cancelar uma parcela em aberto.");
-        return;
-      }
-
-      const params = {
-        id,
-        total_paid: null,
-        discount: 0,
-        paid_date: null,
-        status: 'unpaid'
-      }
-
-      this.alertConfirmation(
-        "Cancelar pagamemto",
-        "Você realmente deseja cancelar este pagamento?",
-        "question"
-      ).then((res) => {
-        if (res) {
-          EnrollmentsService.reversePayment(params).then(() => {
-            this.$refs.modalActions.$refs.btnModal.click();
-            this.toastMessage("Cancelado com sucesso.", "success");
-            this.find();
-          }).catch(err => {
-            if(err.response.status == 500){
-              this.toastMessage(err.response.data.message);
-            }else{
-              this.toastMessage("Erro ao cancelar o pagamento.");
-            }
-          });
         }
       });
     },
@@ -343,10 +171,7 @@ export default {
   components: {
     DashboardComponent,
     InputComponent,
-    SelectComponent,
     Money,
-    ListsComponent,
-    ModalActionsComponent,
   }
 }
 </script>

@@ -7,6 +7,7 @@
       :name="name" 
       :id="id" 
       :placeholder="placeholder"
+      :readonly="readonly"
       v-model="model[name]">
   </div>
 </template>
@@ -38,6 +39,10 @@ export default {
     model: {
       type: Object
     },
+    readonly: {
+      type: Boolean,
+      default: false,
+    }
   },
   data(){
     return {

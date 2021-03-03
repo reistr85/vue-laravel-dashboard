@@ -1,6 +1,7 @@
 /* eslint-disable */
 import axios from 'axios';
 import * as AppUtils  from '@/constants/options'
+import constants from '@/constants';
 
 const baseURL = "/enrollments";
 
@@ -62,11 +63,23 @@ const EnrollmentsService = {
       })
     })
   },
+  storeInstallment(installment){
+    return new Promise((resolve, reject) => {
+      const payload = this.formatRequestInstallment(installment);
+      console.log(payload)
+      axios.post(`${baseURL}/installments`, payload)
+      .then(resp => {
+        resolve(resp);
+      })
+      .catch(err => {
+        reject(err);
+      })
+    })
+  },
   pay(params){
-    const { enrollment_id, id, total_paid, discount, paid_date, status, due_date, price } = params;
+    const { id, total_paid, discount, paid_date, status, due_date, price } = params;
 
     const payload = {
-      enrollment_id,
       id,
       total_paid,
       discount,
@@ -77,7 +90,7 @@ const EnrollmentsService = {
     }
 
     return new Promise((resolve, reject) => {
-      axios.put(`${baseURL}/${enrollment_id}/installment/${params.id}`, payload)
+      axios.put(`${baseURL}/installments/${params.id}`, payload)
       .then(resp => {
         resolve(resp);
       })
@@ -87,10 +100,9 @@ const EnrollmentsService = {
     })
   },
   reversePayment(params){
-    const { enrollment_id, id, total_paid, discount, paid_date, status, due_date, price } = params;
+    const { id, total_paid, discount, paid_date, status, due_date, price } = params;
 
     const payload = {
-      enrollment_id,
       id,
       total_paid,
       discount,
@@ -101,7 +113,18 @@ const EnrollmentsService = {
     }
 
     return new Promise((resolve, reject) => {
-      axios.put(`${baseURL}/${enrollment_id}/installment/${params.id}`, payload)
+      axios.put(`${baseURL}/installments/${params.id}`, payload)
+      .then(resp => {
+        resolve(resp);
+      })
+      .catch(err => {
+        reject(err);
+      })
+    })
+  },
+  destroyEnrollmentInstallment(id){
+    return new Promise((resolve, reject) => {
+      axios.delete(`${baseURL}/installments/${id}`)
       .then(resp => {
         resolve(resp);
       })
@@ -140,6 +163,13 @@ const EnrollmentsService = {
       format(data);
       return responseData;
     }
+  },
+  formatRequestInstallment(data){
+console.log(data);
+    data.status = 'unpaid';
+    data.enrollment_id = 70;
+
+    return data;
   },
   getInstallmentStatusText(value){
     if(!value) return "";

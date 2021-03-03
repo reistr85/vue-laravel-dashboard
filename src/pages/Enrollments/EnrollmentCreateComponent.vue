@@ -247,7 +247,7 @@ export default {
         "question"
       ).then((res) => {
         if (res) {
-          EnrollmentsService.destroyInstallment(id).then(() => {
+          EnrollmentsService.destroyEnrollmentInstallment(id).then(() => {
             this.toastMessage("Excluído com sucesso.", "success");
             this.find();
           }).catch(err => {
