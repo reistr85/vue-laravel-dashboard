@@ -101,7 +101,7 @@ export default {
   },
   watch: {
     'search.value'(){
-      this.$emit("filter", this.search.value);
+        this.$emit("filter", this.search.value);
     }
   },
   data(){

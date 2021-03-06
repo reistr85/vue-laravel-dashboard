@@ -82,11 +82,11 @@
               noShow
                />
 
-              <ModalActionsComponent 
-                ref="modalActions"
-                :installmentSelected="installmentSelected"
-                @paidInstallment="paidInstallment"
-                @cancelInstallment="cancelInstallment" />
+            <ModalActionsComponent 
+              ref="modalActions"
+              :installmentSelected="installmentSelected"
+              @paidInstallment="paidInstallment"
+              @cancelInstallment="cancelInstallment" />
           </div>
         </div>
 

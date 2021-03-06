@@ -78,7 +78,7 @@ export default {
       });
     },
     filter(filterSearch){
-      this.filterSearch(filterSearch, 'modalities', 'description');
+      this.filterSearch(filterSearch, 'modalities', ['description']);
     },
   },
   components: {

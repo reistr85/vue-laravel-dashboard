@@ -78,13 +78,12 @@ const mixins = {
         for(let i=0; i<this[type].length; i++){
           value_search = value_search.toLowerCase();
           let value = '';
-
+          
           for(let j=0; j<column.length; j++){
             value += ` ${this.data_list[i][column[j]].toLowerCase()}`;
           }
           
           this[type] = this.data_list;
-          console.log(value)
           if(value.includes(value_search)){
             filter_data.push(this[type][i]);
           }

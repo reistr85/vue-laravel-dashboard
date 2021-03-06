@@ -165,7 +165,6 @@ const EnrollmentsService = {
     }
   },
   formatRequestInstallment(data){
-console.log(data);
     data.status = 'unpaid';
     data.enrollment_id = 70;
 

@@ -79,7 +79,7 @@ export default {
       });
     },
     filter(filterSearch){
-      this.filterSearch(filterSearch, 'customers', 'name');
+      this.filterSearch(filterSearch, 'customers', ['name', 'email', 'cell_phone']);
     },
   },
   components: {

@@ -13,7 +13,7 @@
         <li :class="[{'active': menuActive(['modalities', 'modality_show', 'modality_create'])}]"><router-link :to="{name: 'modalities'}"><i class="fa fa-box icon"></i> Modalidades</router-link></li>
         <li :class="[{'active': menuActive(['customers', 'customer_show', 'customer_create'])}]"><router-link :to="{name: 'customers'}"><i class="fa fa-users icon"></i> Clientes</router-link></li>
         <li :class="[{'active': menuActive(['enrollments', 'enrollment_show', 'enrollment_create', 'enrollment_installment_create'])}]"><router-link :to="{name: 'enrollments'}"><i class="fa fa-chart-bar icon"></i> Matrículas</router-link></li>
-        <li :class="[{'active': menuActive(['enrollmentss', 'enrollment_shows', 'enrollment_creates'])}]"><router-link :to="{name: 'enrollments'}"><i class="fa fa-chart-bar icon"></i> Fluxo de Caixa</router-link></li>
+        <li :class="[{'active': menuActive(['cash_flows'])}]"><router-link :to="{name: 'cash_flows'}"><i class="fa fa-chart-bar icon"></i> Fluxo de Caixa</router-link></li>
       </ul>
     </div>
   </div>
